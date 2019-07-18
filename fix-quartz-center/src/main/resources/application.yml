@@ -1,0 +1,11 @@
+spring:
+  profiles:
+    active: global
+  application:
+    name: ${quartz-center.name}
+server:
+  port: ${quartz-center.port}
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false

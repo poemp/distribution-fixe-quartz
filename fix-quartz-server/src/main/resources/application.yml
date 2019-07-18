@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: ${quartz-server.name}
+  profiles:
+      active: global
+eureka:
+  instance:
+    lease-expiration-duration-in-seconds: 30
+    lease-renewal-interval-in-seconds: 10
+    prefer-ip-address: true
+    ip-address: ${eureka.global.ip-address}
+    instance-id: ${eureka.instance.ip-address}:${server.port}
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: ${eureka.global.client.service-url.defaultZone}
+server:
+  port: ${quartz-server.port}
+zuul:
+  #  隐藏所有微服务名称(即使用微服务名称无法访问到服务)
+  ignored-services: "*"
+  #  服务前缀名，想要访问项目之前要加上此路径
+  prefix: /fengyuntec
+  routes:
+    #   想要被替换的服务名称(con. 自己取得名字)
+    con.serviceId: eureka-consumer
+    #    替换后访问的名称
+    con.path: /con/**
