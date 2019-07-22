@@ -8,13 +8,12 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @ConfigurationProperties(prefix = "fixed.serve", ignoreUnknownFields = true)
-public class FixedQuartzConfig  {
+public class FixedQuartzConfig {
 
     /**
      * ser
-     *
      */
-    private  String  name;
+    private String name;
 
 
     public String getName() {

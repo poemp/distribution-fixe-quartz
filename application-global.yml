@@ -21,6 +21,6 @@ quartz-client:
   name: quartz-client
   port: 8081
 # 服务端
-squartz-server:
-  name: squartz-server
+quartz-server:
+  name: quartz-server
   port: 8082

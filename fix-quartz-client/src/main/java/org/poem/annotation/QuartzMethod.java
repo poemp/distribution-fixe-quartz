@@ -13,7 +13,8 @@ public @interface QuartzMethod {
 
     /**
      * 方法的名字
+     *
      * @return
      */
-    String name() default  "";
+    String name() default "";
 }

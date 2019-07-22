@@ -23,16 +23,17 @@ public class EurekaController {
 
     /**
      * 获取注册在Eureka中的服务名称
+     *
      * @return
      */
     @GetMapping("/getEurekaServices")
-    public List<String> getEurekaServices(){
+    public List<String> getEurekaServices() {
         List<String> services = new ArrayList<>();
         List<String> serviceNames = discoveryClient.getServices();
-        for(String serviceName : serviceNames){
+        for (String serviceName : serviceNames) {
             List<ServiceInstance> serviceInstances = discoveryClient.getInstances(serviceName);
-            for(ServiceInstance serviceInstance : serviceInstances){
-                services.add(String.format("%s:%s",serviceName,serviceInstance.getUri()));
+            for (ServiceInstance serviceInstance : serviceInstances) {
+                services.add(String.format("%s:%s", serviceName, serviceInstance.getUri()));
             }
         }
         return services;

@@ -10,7 +10,8 @@ public @interface QuartzService {
 
     /**
      * 执行的方法
+     *
      * @return
      */
-    String name() default  "";
+    String name() default "";
 }

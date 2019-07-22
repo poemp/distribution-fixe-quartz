@@ -1,0 +1,18 @@
+{
+  "groups": [
+    {
+      "name": "fixed.serve",
+      "type": "org.poem.config.FixedQuartzConfig",
+      "sourceType": "org.poem.config.FixedQuartzConfig"
+    }
+  ],
+  "properties": [
+    {
+      "name": "fixed.serve.name",
+      "type": "java.lang.String",
+      "description": "ser",
+      "sourceType": "org.poem.config.FixedQuartzConfig"
+    }
+  ],
+  "hints": []
+}

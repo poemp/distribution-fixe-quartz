@@ -14,6 +14,7 @@ public @interface EnableQuartz {
 
     /**
      * 扫描的包
+     *
      * @return
      */
     String scan() default "";

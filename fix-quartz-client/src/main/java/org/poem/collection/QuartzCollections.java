@@ -1,6 +1,7 @@
 package org.poem.collection;
 
 import com.google.common.collect.Lists;
+import lombok.Data;
 import org.apache.commons.lang.StringUtils;
 import org.poem.annotation.QuartzMethod;
 import org.poem.annotation.QuartzService;
@@ -19,20 +20,29 @@ import static jdk.nashorn.internal.objects.NativeArray.join;
 
 /**
  * 执行期
+ * @author poem
  */
 
+@Data
 public class QuartzCollections {
 
+    /**
+     *
+     */
     private static List<QuartzServiceClass> quartzServiceClasses;
 
 
-    private LocalVariableTableParameterNameDiscoverer discoverer = new LocalVariableTableParameterNameDiscoverer();
+    /**
+     *
+     */
+    private static LocalVariableTableParameterNameDiscoverer discoverer = new LocalVariableTableParameterNameDiscoverer();
 
     /**
      * init
      * get all this class and  the method
      */
-    public void init() {
+
+    public static void init() {
         String[] beans = SpringContextHolder.getApplicationContext().getBeanDefinitionNames();
         List<QuartzServiceClass> quartzServiceClasses = Lists.newArrayList();
         QuartzServiceClass quartzServiceClass;
@@ -40,7 +50,7 @@ public class QuartzCollections {
             Class<?> beanType = SpringContextHolder.getApplicationContext().getType(beanName);
             QuartzService quartzService = beanType.getAnnotation(QuartzService.class);
             if (quartzService == null) {
-                return;
+                continue;
             }
             quartzServiceClass = new QuartzServiceClass();
             String name = quartzService.name();
@@ -62,7 +72,7 @@ public class QuartzCollections {
      * @param beanType
      * @return
      */
-    private List<QuartzServiceMethod> getMethod(Class<?> beanType) {
+    private static List<QuartzServiceMethod> getMethod(Class<?> beanType) {
         Method[] methods = beanType.getMethods();
         List<QuartzServiceMethod> quartzServiceMethods = Lists.newArrayList();
         for (Method m : methods) {
@@ -84,7 +94,7 @@ public class QuartzCollections {
      * @param method 参数信息
      * @return
      */
-    private List<QuartzServiceMethodParms> getMethodParms(Method method) {
+    private static List<QuartzServiceMethodParms> getMethodParms(Method method) {
         List<QuartzServiceMethodParms> parms = Lists.newArrayList();
         String[] param = discoverer.getParameterNames(method);
         Annotation[][] annotateds = method.getParameterAnnotations();

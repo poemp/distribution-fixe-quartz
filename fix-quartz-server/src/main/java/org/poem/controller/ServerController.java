@@ -23,6 +23,7 @@ public class ServerController {
 
 
     private static final Logger logger = LoggerFactory.getLogger(ServerController.class);
+
     /**
      * 获取参数
      *
@@ -31,7 +32,7 @@ public class ServerController {
      */
     @PostMapping(value = OhttpUrl.serverPath, headers = {QuartzAccept.QUARTZ_ACCEPT_HEADER_VALUE})
     @Consumes({"application/json"})
-    public Response metadata(@RequestBody  QuartzInstanceInfo info) {
+    public Response metadata(@RequestBody QuartzInstanceInfo info) {
         // validate that the instanceinfo contains all the necessary required fields
         // 验证Instance实例的所有必填字段
         if (StringUtils.isEmpty(info.getId())) {
