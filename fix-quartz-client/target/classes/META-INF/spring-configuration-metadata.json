@@ -1,16 +1,21 @@
 {
   "groups": [
     {
-      "name": "fixed.serve",
+      "name": "fixed.server",
       "type": "org.poem.config.FixedQuartzConfig",
       "sourceType": "org.poem.config.FixedQuartzConfig"
     }
   ],
   "properties": [
     {
-      "name": "fixed.serve.name",
+      "name": "fixed.server.name",
       "type": "java.lang.String",
       "description": "ser",
+      "sourceType": "org.poem.config.FixedQuartzConfig"
+    },
+    {
+      "name": "fixed.server.port",
+      "type": "java.lang.String",
       "sourceType": "org.poem.config.FixedQuartzConfig"
     }
   ],

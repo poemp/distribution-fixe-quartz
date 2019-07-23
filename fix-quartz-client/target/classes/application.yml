@@ -22,3 +22,4 @@ server:
 fixed:
   server:
     name: ${quartz-server.name}
+    port: ${quartz-server.port}

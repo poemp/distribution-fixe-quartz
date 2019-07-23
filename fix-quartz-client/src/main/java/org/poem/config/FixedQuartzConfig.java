@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
  * @author poem
  */
 @Configuration
-@ConfigurationProperties(prefix = "fixed.serve", ignoreUnknownFields = true)
+@ConfigurationProperties(prefix = "fixed.server", ignoreUnknownFields = false)
 public class FixedQuartzConfig {
 
     /**
@@ -15,6 +15,16 @@ public class FixedQuartzConfig {
      */
     private String name;
 
+
+    private String port;
+
+    public String getPort() {
+        return port;
+    }
+
+    public void setPort(String port) {
+        this.port = port;
+    }
 
     public String getName() {
         return name;

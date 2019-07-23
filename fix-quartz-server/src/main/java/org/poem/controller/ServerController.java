@@ -31,11 +31,11 @@ public class ServerController {
      * @return
      */
     @PostMapping(value = OhttpUrl.serverPath, headers = {QuartzAccept.QUARTZ_ACCEPT_HEADER_VALUE})
-    @Consumes({"application/json"})
+    @Consumes({"application/json; charset=utf-8"})
     public Response metadata(@RequestBody QuartzInstanceInfo info) {
         // validate that the instanceinfo contains all the necessary required fields
         // 验证Instance实例的所有必填字段
-        if (StringUtils.isEmpty(info.getId())) {
+        if (StringUtils.isEmpty(info.getIp())) {
             return Response.status(400).message("Missing instanceId").builder();
         } else if (StringUtils.isEmpty(info.getHostName())) {
             return Response.status(400).message("Missing hostname").builder();
@@ -44,7 +44,7 @@ public class ServerController {
         } else if (info.getQuartzServiceClasses() == null) {
             return Response.status(400).message("Missing dataCenterInfo").builder();
         }
-        logger.info("%s", info);
+        logger.info(String.format("%s", info));
         return Response.status(200).message("request is ok ").builder();
     }
 }

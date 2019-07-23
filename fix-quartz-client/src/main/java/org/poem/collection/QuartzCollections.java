@@ -16,8 +16,6 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.List;
 
-import static jdk.nashorn.internal.objects.NativeArray.join;
-
 /**
  * 执行期
  * @author poem
@@ -27,10 +25,13 @@ import static jdk.nashorn.internal.objects.NativeArray.join;
 public class QuartzCollections {
 
     /**
-     *
+     * 获取的数据
      */
     private static List<QuartzServiceClass> quartzServiceClasses;
 
+    public static List<QuartzServiceClass> getQuartzServiceClasses() {
+        return quartzServiceClasses;
+    }
 
     /**
      *
@@ -76,10 +77,11 @@ public class QuartzCollections {
         Method[] methods = beanType.getMethods();
         List<QuartzServiceMethod> quartzServiceMethods = Lists.newArrayList();
         for (Method m : methods) {
-            if (null != m.getAnnotation(QuartzMethod.class)) {
+            QuartzMethod quartzMethod =m.getAnnotation(QuartzMethod.class);
+            if (quartzMethod != null ) {
                 QuartzServiceMethod method = new QuartzServiceMethod();
-                method.setMethod(method.getMethodName());
-                method.setMethodName(m.getAnnotation(QuartzMethod.class).name());
+                method.setMethod(m.getName());
+                method.setMethodName(quartzMethod.name());
                 method.setQuartzServiceMethodParmsList((getMethodParms(m)));
                 quartzServiceMethods.add(method);
             }
@@ -109,7 +111,7 @@ public class QuartzCollections {
         } else {
             for (int i = 0; i < param.length; i++) {
                 annotations = annotateds[i];
-                parms.add(new QuartzServiceMethodParms(param[i], paramClazzs[i], join("", annotations)));
+                parms.add(new QuartzServiceMethodParms(param[i], paramClazzs[i], ""));
             }
         }
         return parms;

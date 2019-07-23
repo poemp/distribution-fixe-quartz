@@ -1,9 +1,11 @@
 package org.poem;
 
+import java.io.Serializable;
+
 /**
  * @author poem
  */
-public class Response {
+public class Response implements Serializable {
 
     private Integer status;
 
@@ -77,7 +79,21 @@ public class Response {
         public Response builder() {
             return new Response(this.status, this.message);
         }
+    }
 
+    public Integer getStatus() {
+        return status;
+    }
 
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }
