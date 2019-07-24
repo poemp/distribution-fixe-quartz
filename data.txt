@@ -21,7 +21,7 @@
 备注：
 
 内部标识符：DE00X02
-  中文名称：省级行政区划名称
+中文名称：省级行政区划名称
 中文全拼：sheng-ji-xing-zheng-qu-hua-hua-ming-cheng
 标识符：SJXZQHMC
 版本：2.0
