@@ -8,7 +8,10 @@ import org.poem.listener.SystemClientApplicationService;
 import org.poem.listener.SystemServiceApplicationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.context.event.ApplicationStartedEvent;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationEvent;
+import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -21,7 +24,7 @@ import java.util.concurrent.Executors;
  * @author poem
  */
 @Service
-public class HeartExecutor {
+public class HeartExecutor implements ApplicationListener {
 
     private static final Logger logger = LoggerFactory.getLogger(HeartExecutor.class);
     /**
@@ -40,7 +43,6 @@ public class HeartExecutor {
         executor.submit(heartbeatClient);
     }
 
-    @PostConstruct
     public void run() {
         submit(new HeartbeatClient(new HeartbeatHandler() {
 
@@ -67,5 +69,13 @@ public class HeartExecutor {
     public void destroy(){
         logger.info("heartExecutor destroy ...");
         executor.shutdown();
+    }
+
+    @Override
+    public void onApplicationEvent(ApplicationEvent event) {
+        if (event instanceof ApplicationStartedEvent){
+            logger.info( "start heartbeat ......." );
+            run();
+        }
     }
 }

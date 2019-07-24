@@ -66,22 +66,52 @@ public class QuartzPulishHelper {
     private QuartzInstanceInfo build(List<QuartzServiceClass> quartzServiceClasses) {
         String ip = inetUtilsProperties.getDefaultIpAddress();
         String hostName = inetUtilsProperties.getDefaultHostname();
-        return QuartzInstanceInfo.Builder.ip(ip).appName(getApplicationName()).hostName(hostName).quartzServiceClasses(quartzServiceClasses).build();
+        return QuartzInstanceInfo.Builder
+                .ip(ip)
+                .appName(getApplicationName())
+                .hostName(hostName)
+                .quartzServiceClasses(quartzServiceClasses)
+                .build();
     }
 
     /**
-     * 推送
+     * 日志
+     * @param uri
+     */
+    private void log(String uri){
+        logger.info(" Future Uri : " + uri);
+        logger.info(" " +QuartzAccept.QUARTZ_ACCEPT_HEADER_KEY + ": " + QuartzAccept.QUARTZ_ACCEPT_HEADER_VALUE);
+        logger.info(" Content-Type : application/json; charset=utf-8" );
+    }
+    /**
+     * 开启推送
+     * @param quartzServiceClasses
      */
     public void push(List<QuartzServiceClass> quartzServiceClasses) {
-        String uri = "http://" + fixedQuartzConfig.getName().toUpperCase() + ":" + fixedQuartzConfig.getPort() + OhttpUrl.serverPath;
+        String uri = "http://" + fixedQuartzConfig.getName().toUpperCase() + ":" + fixedQuartzConfig.getPort() + OhttpUrl.SERVER_PATH;
         HttpHeaders headers = new HttpHeaders();
         headers.add(QuartzAccept.QUARTZ_ACCEPT_HEADER_KEY, QuartzAccept.QUARTZ_ACCEPT_HEADER_VALUE);
         headers.add("Content-Type", "application/json; charset=utf-8");
         HttpEntity<String> entity = new HttpEntity<>(JSONObject.toJSONString(build(quartzServiceClasses)), headers);
 
-        logger.info(" future uri : " + uri);
-        logger.info(" " +QuartzAccept.QUARTZ_ACCEPT_HEADER_KEY + ": " + QuartzAccept.QUARTZ_ACCEPT_HEADER_VALUE);
-        logger.info(" Content-Type : application/json; charset=utf-8" );
+        log(uri);
+
+        String request = restTemplate.
+                postForEntity(uri, entity, String.class, new Object()).getBody();
+        logger.info(" this request is : " + request);
+    }
+
+    /**
+     * 推送失效
+     */
+    public void delete() {
+        String uri = "http://" + fixedQuartzConfig.getName().toUpperCase() + ":" + fixedQuartzConfig.getPort() + OhttpUrl.DEL_SERVER_PATH;
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(QuartzAccept.QUARTZ_ACCEPT_HEADER_KEY, QuartzAccept.QUARTZ_ACCEPT_HEADER_VALUE);
+        headers.add("Content-Type", "application/json; charset=utf-8");
+        HttpEntity<String> entity = new HttpEntity<>(JSONObject.toJSONString(build(null)), headers);
+
+        log(uri);
 
         String request = restTemplate.
                 postForEntity(uri, entity, String.class, new Object()).getBody();

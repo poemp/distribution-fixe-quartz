@@ -12,6 +12,8 @@ import java.util.List;
 @Data
 public class QuartzInstanceInfo {
 
+    private static Builder INFO;
+    private String id;
     /**
      * ip
      */
@@ -20,18 +22,16 @@ public class QuartzInstanceInfo {
      * hostname
      */
     private String hostName;
-
     /**
      * appname
      */
     private String appName;
-
     /**
      * 获取的数据
      */
     private List<QuartzServiceClass> quartzServiceClasses;
 
-    private   QuartzInstanceInfo(){
+    private QuartzInstanceInfo() {
 
     }
 
@@ -40,20 +40,22 @@ public class QuartzInstanceInfo {
         this.hostName = hostName;
         this.appName = appName;
         this.quartzServiceClasses = quartzServiceClasses;
+        this.id = MD5Utils.getMD5( ip + "@" + hostName + "@" + appName ).toUpperCase();
     }
 
-    private static Builder INFO;
-
-
-    private static Builder instance(){
-        if (INFO ==null){
+    private static Builder instance() {
+        if (INFO == null) {
             INFO = new Builder();
         }
         return INFO;
     }
 
+    @Override
+    public String toString() {
+        return JSONObject.toJSONString( this );
+    }
 
-    public static class Builder{
+    public static class Builder {
         /**
          * ip
          */
@@ -70,37 +72,37 @@ public class QuartzInstanceInfo {
 
         private List<QuartzServiceClass> quartzServiceClasses;
 
-        public static QuartzInstanceInfo.Builder ip(String ip){
+        public static QuartzInstanceInfo.Builder ip(String ip) {
             QuartzInstanceInfo.Builder builder = instance();
             builder.ip = ip;
             return builder;
         }
 
-        public  QuartzInstanceInfo.Builder hostName(String hostName){
+        public QuartzInstanceInfo.Builder hostName(String hostName) {
             QuartzInstanceInfo.Builder builder = instance();
             builder.hostName = hostName;
             return builder;
         }
-        public  QuartzInstanceInfo.Builder appName(String appName){
+
+        public QuartzInstanceInfo.Builder appName(String appName) {
             QuartzInstanceInfo.Builder builder = instance();
             builder.appName = appName;
             return builder;
         }
 
-        public  QuartzInstanceInfo.Builder quartzServiceClasses(List<QuartzServiceClass> quartzServiceClasses){
+        public QuartzInstanceInfo.Builder quartzServiceClasses(List<QuartzServiceClass> quartzServiceClasses) {
             QuartzInstanceInfo.Builder builder = instance();
             builder.quartzServiceClasses = quartzServiceClasses;
             return builder;
         }
 
-        public  QuartzInstanceInfo build(){
-            return new QuartzInstanceInfo(INFO.ip, INFO.hostName, INFO.appName, INFO.quartzServiceClasses);
+        /**
+         * 创建对象
+         *
+         * @return
+         */
+        public QuartzInstanceInfo build() {
+            return new QuartzInstanceInfo( INFO.ip, INFO.hostName, INFO.appName, INFO.quartzServiceClasses );
         }
-    }
-
-
-    @Override
-    public String toString() {
-        return JSONObject.toJSONString(this);
     }
 }

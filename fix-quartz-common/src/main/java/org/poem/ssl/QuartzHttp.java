@@ -20,6 +20,9 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
+/**
+ * @author Administrator
+ */
 @Data
 public class QuartzHttp {
 
@@ -49,7 +52,7 @@ public class QuartzHttp {
     public String post() {
         CloseableHttpClient httpclient = HttpClients.createDefault();
         // 创建httpPost
-        String url = this.host + ":" + this.port + OhttpUrl.serverPath;
+        String url = this.host + ":" + this.port + OhttpUrl.SERVER_PATH;
         HttpPost httpPost = new HttpPost(url);
         httpPost.setHeader("Accept", "application/json");
         httpPost.setHeader("Content-Type", "application/json");

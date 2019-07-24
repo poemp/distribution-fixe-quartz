@@ -5,5 +5,8 @@ package org.poem.heart;
  */
 public interface HeartbeatHandler {
 
+    /**
+     *
+     */
     public void handler();
 }

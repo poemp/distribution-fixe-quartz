@@ -11,6 +11,7 @@ import org.poem.heart.HeartbeatHandler;
 public class HeartbeatClient implements Runnable {
 
 
+    private final HeartbeatHandler heartbeatHandler;
     private boolean isRunning = true;
     /**
      * 最近的心跳时间
@@ -21,8 +22,6 @@ public class HeartbeatClient implements Runnable {
      */
     private long heartBeatInterval = 10 * 1000;
 
-    private final HeartbeatHandler heartbeatHandler;
-
 
     public HeartbeatClient(HeartbeatHandler heartbeatHandler) {
         this.heartbeatHandler = heartbeatHandler;
@@ -30,21 +29,20 @@ public class HeartbeatClient implements Runnable {
 
     @Override
     public void run() {
-
-        while (isRunning) {
-            long startTime = System.currentTimeMillis();
-            // 是否达到发送心跳的周期时间
-            if (startTime - lastHeartbeat > heartBeatInterval) {
-                lastHeartbeat = startTime;
-                try {
-                    this.heartbeatHandler.handler();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    HeartExecutor.submit(this);
-                }
+        long startTime = System.currentTimeMillis();
+        // 是否达到发送心跳的周期时间
+        if (startTime - lastHeartbeat > heartBeatInterval) {
+            lastHeartbeat = startTime;
+            try {
+                this.heartbeatHandler.handler();
+                HeartExecutor.submit( this );
+            } catch (Exception e) {
+                e.printStackTrace();
+                HeartExecutor.submit( this );
             }
+        }else{
+            HeartExecutor.submit(this);
         }
     }
-
 }
 
