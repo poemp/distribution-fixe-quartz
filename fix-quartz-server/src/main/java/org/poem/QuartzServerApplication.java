@@ -12,7 +12,7 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 public class QuartzServerApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(QuartzServerApplication.class, args);
+        SpringApplication.run( QuartzServerApplication.class, args );
     }
 
 

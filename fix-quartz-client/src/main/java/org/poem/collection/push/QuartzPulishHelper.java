@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.commons.util.InetUtilsProperties;
 import org.springframework.core.SpringProperties;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,7 @@ import java.util.List;
 @Service
 public class QuartzPulishHelper {
 
-    private static final Logger logger = LoggerFactory.getLogger(QuartzPulishHelper.class);
+    private static final Logger logger = LoggerFactory.getLogger( QuartzPulishHelper.class );
 
     @Autowired
     private RestTemplate restTemplate;
@@ -38,6 +39,9 @@ public class QuartzPulishHelper {
     @Autowired
     private InetUtilsProperties inetUtilsProperties;
 
+    @Autowired
+    private Environment environment;
+
 
     /**
      * get application name
@@ -45,8 +49,8 @@ public class QuartzPulishHelper {
      * @return
      */
     private String getApplicationName() {
-        String applicationName = SpringProperties.getProperty("spring.application.name");
-        return StringUtils.hasText(applicationName) ? applicationName : "application";
+        String applicationName = environment.getProperty( "spring.application.name" );
+        return StringUtils.hasText( applicationName ) ? applicationName : "application";
     }
 
 
@@ -56,7 +60,7 @@ public class QuartzPulishHelper {
      * @return
      */
     public String getPort() {
-        return SpringProperties.getProperty("server.port");
+        return environment.getProperty( "server.port" );
     }
 
 
@@ -67,38 +71,42 @@ public class QuartzPulishHelper {
         String ip = inetUtilsProperties.getDefaultIpAddress();
         String hostName = inetUtilsProperties.getDefaultHostname();
         return QuartzInstanceInfo.Builder
-                .ip(ip)
-                .appName(getApplicationName())
-                .hostName(hostName)
-                .quartzServiceClasses(quartzServiceClasses)
+                .ip( ip )
+                .appName( getApplicationName() )
+                .hostName( hostName )
+                .port(  getPort() )
+                .quartzServiceClasses( quartzServiceClasses )
                 .build();
     }
 
     /**
      * 日志
+     *
      * @param uri
      */
-    private void log(String uri){
-        logger.info(" Future Uri : " + uri);
-        logger.info(" " +QuartzAccept.QUARTZ_ACCEPT_HEADER_KEY + ": " + QuartzAccept.QUARTZ_ACCEPT_HEADER_VALUE);
-        logger.info(" Content-Type : application/json; charset=utf-8" );
+    private void log(String uri) {
+        logger.info( " Future Uri : " + uri );
+        logger.info( " Headers: " + QuartzAccept.QUARTZ_ACCEPT_HEADER_VALUE );
+        logger.info( " Content-Type : application/json; charset=utf-8" );
     }
+
     /**
      * 开启推送
+     *
      * @param quartzServiceClasses
      */
     public void push(List<QuartzServiceClass> quartzServiceClasses) {
         String uri = "http://" + fixedQuartzConfig.getName().toUpperCase() + ":" + fixedQuartzConfig.getPort() + OhttpUrl.SERVER_PATH;
         HttpHeaders headers = new HttpHeaders();
-        headers.add(QuartzAccept.QUARTZ_ACCEPT_HEADER_KEY, QuartzAccept.QUARTZ_ACCEPT_HEADER_VALUE);
-        headers.add("Content-Type", "application/json; charset=utf-8");
-        HttpEntity<String> entity = new HttpEntity<>(JSONObject.toJSONString(build(quartzServiceClasses)), headers);
+        headers.add( QuartzAccept.QUARTZ_ACCEPT_HEADER_KEY, QuartzAccept.QUARTZ_ACCEPT_HEADER_VALUE );
+        headers.add( "Content-Type", "application/json; charset=utf-8" );
+        HttpEntity<String> entity = new HttpEntity<>( JSONObject.toJSONString( build( quartzServiceClasses ) ), headers );
 
-        log(uri);
+        log( uri );
 
         String request = restTemplate.
-                postForEntity(uri, entity, String.class, new Object()).getBody();
-        logger.info(" this request is : " + request);
+                postForEntity( uri, entity, String.class, new Object() ).getBody();
+        logger.info( " Registered instance : " + request );
     }
 
     /**
@@ -107,14 +115,14 @@ public class QuartzPulishHelper {
     public void delete() {
         String uri = "http://" + fixedQuartzConfig.getName().toUpperCase() + ":" + fixedQuartzConfig.getPort() + OhttpUrl.DEL_SERVER_PATH;
         HttpHeaders headers = new HttpHeaders();
-        headers.add(QuartzAccept.QUARTZ_ACCEPT_HEADER_KEY, QuartzAccept.QUARTZ_ACCEPT_HEADER_VALUE);
-        headers.add("Content-Type", "application/json; charset=utf-8");
-        HttpEntity<String> entity = new HttpEntity<>(JSONObject.toJSONString(build(null)), headers);
+        headers.add( QuartzAccept.QUARTZ_ACCEPT_HEADER_KEY, QuartzAccept.QUARTZ_ACCEPT_HEADER_VALUE );
+        headers.add( "Content-Type", "application/json; charset=utf-8" );
+        HttpEntity<String> entity = new HttpEntity<>( JSONObject.toJSONString( build( null ) ), headers );
 
-        log(uri);
+        log( uri );
 
         String request = restTemplate.
-                postForEntity(uri, entity, String.class, new Object()).getBody();
-        logger.info(" this request is : " + request);
+                postForEntity( uri, entity, String.class, new Object() ).getBody();
+        logger.info( " Registered instance : " + request );
     }
 }

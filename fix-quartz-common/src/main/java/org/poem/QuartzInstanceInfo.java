@@ -19,6 +19,10 @@ public class QuartzInstanceInfo {
      */
     private String ip;
     /**
+     * port
+     */
+    private String port;
+    /**
      * hostname
      */
     private String hostName;
@@ -35,12 +39,13 @@ public class QuartzInstanceInfo {
 
     }
 
-    private QuartzInstanceInfo(String ip, String hostName, String appName, List<QuartzServiceClass> quartzServiceClasses) {
+    private QuartzInstanceInfo(String ip, String hostName, String appName,String port,  List<QuartzServiceClass> quartzServiceClasses) {
         this.ip = ip;
         this.hostName = hostName;
+        this.port = port;
         this.appName = appName;
         this.quartzServiceClasses = quartzServiceClasses;
-        this.id = MD5Utils.getMD5( ip + "@" + hostName + "@" + appName ).toUpperCase();
+        this.id = MD5Utils.getMD5( ip + "@" + hostName + "@" + appName + "@" + port ).toUpperCase();
     }
 
     private static Builder instance() {
@@ -70,11 +75,21 @@ public class QuartzInstanceInfo {
          */
         private String appName;
 
+        /**
+         * port
+         */
+        private String port;
+
         private List<QuartzServiceClass> quartzServiceClasses;
 
         public static QuartzInstanceInfo.Builder ip(String ip) {
             QuartzInstanceInfo.Builder builder = instance();
             builder.ip = ip;
+            return builder;
+        }
+        public static QuartzInstanceInfo.Builder port(String port) {
+            QuartzInstanceInfo.Builder builder = instance();
+            builder.port = port;
             return builder;
         }
 
@@ -102,7 +117,7 @@ public class QuartzInstanceInfo {
          * @return
          */
         public QuartzInstanceInfo build() {
-            return new QuartzInstanceInfo( INFO.ip, INFO.hostName, INFO.appName, INFO.quartzServiceClasses );
+            return new QuartzInstanceInfo( INFO.ip, INFO.hostName, INFO.appName, INFO.port, INFO.quartzServiceClasses );
         }
     }
 }

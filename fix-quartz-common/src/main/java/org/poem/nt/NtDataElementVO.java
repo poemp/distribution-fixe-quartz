@@ -7,7 +7,7 @@ import org.poem.nt.field.NtField;
  * @author poem
  */
 @Data
-public class NtDataSourceVO {
+public class NtDataElementVO {
 
     @NtField(name = "内部标识符")
     private String internaldentifier;
@@ -25,8 +25,6 @@ public class NtDataSourceVO {
     private String explain;
     @NtField(name = "对象词")
     private String className;
-    @NtField(name = "对象类词")
-    private String classTypeName;
     @NtField(name = "特性词")
     private String characteristic;
     @NtField(name = "表示词")
@@ -51,8 +49,4 @@ public class NtDataSourceVO {
     private String approvedDate;
     @NtField(name = "备注")
     private String remarks;
-    @NtField(name = "数据格式")
-    private String dataFormat;
-    @NtField(name = "字段名标识符")
-    private String charNameIdentifier;
 }

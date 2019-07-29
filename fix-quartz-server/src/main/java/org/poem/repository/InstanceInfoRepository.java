@@ -1,9 +1,11 @@
 package org.poem.repository;
 
+import com.google.common.collect.Lists;
 import org.poem.QuartzInstanceInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -32,14 +34,14 @@ public class InstanceInfoRepository {
     private static volatile ConcurrentMap<String, Object> sets = new ConcurrentHashMap<String, Object>();
 
     /**
-     *
+     * 超时
      */
     private static long heartBeatInterval = 3 * 1000;
 
     private static ExecutorService executor = Executors.newFixedThreadPool( 2 );
 
     static {
-        logger.info( "start monitor  ...... " );
+        logger.info( "Start Monitor  ...... " );
         executor.submit( new MonitorFlush() );
         executor.submit( new MonitorRemove() );
     }
@@ -108,6 +110,16 @@ public class InstanceInfoRepository {
         }
     }
 
+    /**
+     * 获取数据
+     */
+    public static List<QuartzInstanceInfo> getAllInstanceInfo() {
+        List<QuartzInstanceInfo> instanceInfos = Lists.newArrayList();
+        for (Repository repository : list) {
+            instanceInfos.add( repository.getQuartzInstanceInfo() );
+        }
+        return instanceInfos;
+    }
 
     /**
      * 自动

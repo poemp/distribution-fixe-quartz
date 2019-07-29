@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * 事件的监听和执行
+ *
  * @author poem
  */
 @Component
@@ -15,6 +16,7 @@ public class SystemApplicationListener implements ApplicationListener<BaseAbstra
 
     /**
      * 发布事件的执行
+     *
      * @param abstractEvent 事件
      */
     @NotNull

@@ -4,6 +4,7 @@ import org.poem.event.ServiceEvent;
 
 /**
  * 事件的发布
+ *
  * @author poem
  */
 public interface SystemServiceApplicationService {

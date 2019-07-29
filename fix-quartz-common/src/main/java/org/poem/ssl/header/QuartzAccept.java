@@ -21,5 +21,5 @@ public class QuartzAccept {
     /**
      * 支持的文件头
      */
-    public static final BasicHeader QUARTZ_ACCEPT_HEADER = new BasicHeader(QUARTZ_ACCEPT_HEADER_KEY, QUARTZ_ACCEPT_HEADER_VALUE);
+    public static final BasicHeader QUARTZ_ACCEPT_HEADER = new BasicHeader( QUARTZ_ACCEPT_HEADER_KEY, QUARTZ_ACCEPT_HEADER_VALUE );
 }

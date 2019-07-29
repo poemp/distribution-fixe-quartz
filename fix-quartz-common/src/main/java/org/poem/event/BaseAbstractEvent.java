@@ -6,10 +6,10 @@ import org.springframework.context.ApplicationEvent;
 /**
  * @author poem
  */
-public abstract class BaseAbstractEvent  extends ApplicationEvent implements Event {
+public abstract class BaseAbstractEvent extends ApplicationEvent implements Event {
 
     BaseAbstractEvent(Object source) {
-        super(source);
+        super( source );
     }
 
     /**

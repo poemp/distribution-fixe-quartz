@@ -17,6 +17,7 @@ public @interface NtField {
     /**
      * 是否是日期
      * xxxx-xx-xx
+     *
      * @return
      */
     boolean isDate() default false;
@@ -24,6 +25,7 @@ public @interface NtField {
 
     /**
      * 是否是身份证
+     *
      * @return
      */
     boolean isIdNum() default false;
@@ -31,6 +33,7 @@ public @interface NtField {
 
     /**
      * 是否是数字
+     *
      * @return
      */
     boolean isNumber() default false;

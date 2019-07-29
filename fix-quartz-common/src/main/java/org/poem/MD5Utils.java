@@ -119,7 +119,7 @@ public class MD5Utils {
 
         StringBuffer md5StrBuff = new StringBuffer();
 
-        for (int i = 0; i < byteArray.length; i++){
+        for (int i = 0; i < byteArray.length; i++) {
             if (Integer.toHexString( 0xFF & byteArray[i] ).length() == 1) {
                 md5StrBuff.append( "0" ).append( Integer.toHexString( 0xFF & byteArray[i] ) );
             } else {

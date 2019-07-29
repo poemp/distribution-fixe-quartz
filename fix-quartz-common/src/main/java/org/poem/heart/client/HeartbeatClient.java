@@ -40,8 +40,8 @@ public class HeartbeatClient implements Runnable {
                 e.printStackTrace();
                 HeartExecutor.submit( this );
             }
-        }else{
-            HeartExecutor.submit(this);
+        } else {
+            HeartExecutor.submit( this );
         }
     }
 }

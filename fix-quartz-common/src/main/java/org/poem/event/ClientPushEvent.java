@@ -4,10 +4,10 @@ package org.poem.event;
  * client 事件
  * 发送消息心跳事件
  */
-public abstract class ClientPushEvent extends BaseAbstractEvent{
+public abstract class ClientPushEvent extends BaseAbstractEvent {
 
     public ClientPushEvent(Object source) {
-        super(source);
+        super( source );
     }
 
     /**

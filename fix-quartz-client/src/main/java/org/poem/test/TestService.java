@@ -12,11 +12,10 @@ import org.springframework.stereotype.Service;
 public class TestService {
 
     /**
-     *
      * @param args
      */
     @QuartzMethod(name = "测试方法")
-    public void testMethod(String args){
-        System.out.println("distribution hello word .");
+    public void testMethod(String args) {
+        System.out.println( "distribution hello word ." );
     }
 }

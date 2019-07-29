@@ -2,7 +2,7 @@ spring:
   application:
     name: ${quartz-server.name}
   profiles:
-      active: global
+    active: global
 eureka:
   instance:
     lease-expiration-duration-in-seconds: 30

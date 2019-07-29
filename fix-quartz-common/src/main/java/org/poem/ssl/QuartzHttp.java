@@ -26,7 +26,7 @@ import java.io.IOException;
 @Data
 public class QuartzHttp {
 
-    private static final Logger logger = LoggerFactory.getLogger(QuartzHttp.class);
+    private static final Logger logger = LoggerFactory.getLogger( QuartzHttp.class );
 
     /**
      * host
@@ -53,27 +53,27 @@ public class QuartzHttp {
         CloseableHttpClient httpclient = HttpClients.createDefault();
         // 创建httpPost
         String url = this.host + ":" + this.port + OhttpUrl.SERVER_PATH;
-        HttpPost httpPost = new HttpPost(url);
-        httpPost.setHeader("Accept", "application/json");
-        httpPost.setHeader("Content-Type", "application/json");
-        httpPost.setHeader(QuartzAccept.QUARTZ_ACCEPT_HEADER);
-        StringEntity entity = new StringEntity(JSONObject.toJSONString(params), Consts.UTF_8);
-        httpPost.setEntity(entity);
+        HttpPost httpPost = new HttpPost( url );
+        httpPost.setHeader( "Accept", "application/json" );
+        httpPost.setHeader( "Content-Type", "application/json" );
+        httpPost.setHeader( QuartzAccept.QUARTZ_ACCEPT_HEADER );
+        StringEntity entity = new StringEntity( JSONObject.toJSONString( params ), Consts.UTF_8 );
+        httpPost.setEntity( entity );
         CloseableHttpResponse response = null;
         try {
 
-            response = httpclient.execute(httpPost);
+            response = httpclient.execute( httpPost );
             StatusLine status = response.getStatusLine();
             int state = status.getStatusCode();
             if (state == HttpStatus.SC_OK) {
                 HttpEntity responseEntity = response.getEntity();
-                String jsonString = EntityUtils.toString(responseEntity);
+                String jsonString = EntityUtils.toString( responseEntity );
                 return jsonString;
             } else {
-                logger.error("请求返回:" + state + "(" + url + ")");
+                logger.error( "请求返回:" + state + "(" + url + ")" );
             }
         } catch (IOException e) {
-            logger.error(e.getMessage(), e);
+            logger.error( e.getMessage(), e );
             e.printStackTrace();
         } finally {
             if (response != null) {

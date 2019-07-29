@@ -7,16 +7,14 @@ import java.io.Serializable;
  */
 public class Response implements Serializable {
 
+    private static volatile ResponseBuilder rd = null;
     private Integer status;
-
     private String message;
 
     private Response(Integer status, String message) {
         this.status = status;
         this.message = message;
     }
-
-    private static volatile ResponseBuilder rd = null;
 
     private static ResponseBuilder getInstance() {
         ResponseBuilder builder = rd;
@@ -42,45 +40,6 @@ public class Response implements Serializable {
         return builder;
     }
 
-
-    public static class ResponseBuilder {
-
-        private Integer status;
-
-        private String message;
-
-
-        public Integer getStatus() {
-            return status;
-        }
-
-        public ResponseBuilder status(Integer status) {
-            this.status = status;
-            return this;
-        }
-
-        public void setStatus(Integer status) {
-            this.status = status;
-        }
-
-        public void setMessage(String message) {
-            this.message = message;
-        }
-
-        public String getMessage() {
-            return message;
-        }
-
-        public ResponseBuilder message(String message) {
-            this.message = message;
-            return this;
-        }
-
-        public Response builder() {
-            return new Response(this.status, this.message);
-        }
-    }
-
     public Integer getStatus() {
         return status;
     }
@@ -95,5 +54,43 @@ public class Response implements Serializable {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public static class ResponseBuilder {
+
+        private Integer status;
+
+        private String message;
+
+
+        public Integer getStatus() {
+            return status;
+        }
+
+        public void setStatus(Integer status) {
+            this.status = status;
+        }
+
+        public ResponseBuilder status(Integer status) {
+            this.status = status;
+            return this;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+
+        public void setMessage(String message) {
+            this.message = message;
+        }
+
+        public ResponseBuilder message(String message) {
+            this.message = message;
+            return this;
+        }
+
+        public Response builder() {
+            return new Response( this.status, this.message );
+        }
     }
 }

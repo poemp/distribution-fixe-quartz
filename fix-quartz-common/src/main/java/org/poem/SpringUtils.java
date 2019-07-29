@@ -14,15 +14,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class SpringUtils implements ApplicationContextAware {
 
-    private static final Logger logger = LoggerFactory.getLogger(SpringUtils.class);
+    private static final Logger logger = LoggerFactory.getLogger( SpringUtils.class );
     private static ApplicationContext applicationContext;
-
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        if (SpringUtils.applicationContext == null) {
-            SpringUtils.applicationContext = applicationContext;
-        }
-    }
 
     /**
      * 获取applicationContext
@@ -33,6 +26,13 @@ public class SpringUtils implements ApplicationContextAware {
         return applicationContext;
     }
 
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        if (SpringUtils.applicationContext == null) {
+            SpringUtils.applicationContext = applicationContext;
+        }
+    }
+
     /**
      * 通过name获取 Bean.
      *
@@ -40,7 +40,7 @@ public class SpringUtils implements ApplicationContextAware {
      * @return
      */
     public static Object getBean(String name) {
-        return getApplicationContext().getBean(name);
+        return getApplicationContext().getBean( name );
     }
 
     /**
@@ -53,13 +53,13 @@ public class SpringUtils implements ApplicationContextAware {
     public static <T> T getBean(Class<T> clazz) {
         T t;
         try {
-            t = getApplicationContext().getBean(clazz);
+            t = getApplicationContext().getBean( clazz );
             return t;
         } catch (BeansException e) {
             if (e instanceof NoSuchBeanDefinitionException) {
                 return null;
             }
-            logger.error(e.getMessage(), e);
+            logger.error( e.getMessage(), e );
         }
         return null;
     }
@@ -73,7 +73,7 @@ public class SpringUtils implements ApplicationContextAware {
      * @return
      */
     public static <T> T getBean(String name, Class<T> clazz) {
-        return getApplicationContext().getBean(name, clazz);
+        return getApplicationContext().getBean( name, clazz );
     }
 
 }

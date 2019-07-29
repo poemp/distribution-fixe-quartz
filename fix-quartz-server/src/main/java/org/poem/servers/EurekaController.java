@@ -1,4 +1,4 @@
-package org.poem.controller;
+package org.poem.servers;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,9 +31,9 @@ public class EurekaController {
         List<String> services = new ArrayList<>();
         List<String> serviceNames = discoveryClient.getServices();
         for (String serviceName : serviceNames) {
-            List<ServiceInstance> serviceInstances = discoveryClient.getInstances(serviceName);
+            List<ServiceInstance> serviceInstances = discoveryClient.getInstances( serviceName );
             for (ServiceInstance serviceInstance : serviceInstances) {
-                services.add(String.format("%s:%s", serviceName, serviceInstance.getUri()));
+                services.add( String.format( "%s:%s", serviceName, serviceInstance.getUri() ) );
             }
         }
         return services;
