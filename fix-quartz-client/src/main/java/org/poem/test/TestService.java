@@ -18,4 +18,13 @@ public class TestService {
     public void testMethod(String args) {
         System.out.println( "distribution hello word ." );
     }
+
+
+    /**
+     *
+     */
+    @QuartzMethod(name = "主方法")
+    public void main() {
+        System.out.println( "主方法 ." );
+    }
 }

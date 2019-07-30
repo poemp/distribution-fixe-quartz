@@ -23,13 +23,15 @@ import javax.ws.rs.Consumes;
 @RequestMapping("")
 public class ServerRequest {
 
-
+    /**
+     * 日志行为
+     */
     private static final Logger logger = LoggerFactory.getLogger( ServerRequest.class );
 
     /**
      * 获取参数
      *
-     * @param info
+     * @param info 提交的参数
      * @return
      */
     @PostMapping(value = OhttpUrl.SERVER_PATH, headers = {QuartzAccept.QUARTZ_ACCEPT_HEADER_VALUE})

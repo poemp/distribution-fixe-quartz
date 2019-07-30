@@ -2,7 +2,7 @@ package org.poem;
 
 import com.alibaba.fastjson.JSONObject;
 import lombok.Data;
-import org.poem.vo.QuartzServiceClass;
+import org.poem.instanceinfo.QuartzServiceClass;
 
 import java.util.List;
 
@@ -13,6 +13,10 @@ import java.util.List;
 public class QuartzInstanceInfo {
 
     private static Builder INFO;
+
+    /**
+     * 数据的id
+     */
     private String id;
     /**
      * ip
@@ -87,7 +91,8 @@ public class QuartzInstanceInfo {
             builder.ip = ip;
             return builder;
         }
-        public static QuartzInstanceInfo.Builder port(String port) {
+
+        public  QuartzInstanceInfo.Builder port(String port) {
             QuartzInstanceInfo.Builder builder = instance();
             builder.port = port;
             return builder;

@@ -19,5 +19,5 @@ public class OhttpUrl {
     /**
      * 执行
      */
-    public static final String EXECUT_SERVER_PATH = "/v1/executorMetadata";
+    public static final String EXECUTE_SERVER_PATH = "/v1/executorMetadata";
 }

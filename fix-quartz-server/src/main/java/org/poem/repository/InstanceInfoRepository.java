@@ -66,6 +66,8 @@ public class InstanceInfoRepository {
                     r.setLoseCount( LOST_COUNT );
                     r.setLose( LOST_BOOLEAN );
                     r.setLose( new AtomicBoolean( false ) );
+                    //还是把原来的放进去，如果新添加方法，不会更新原来保存的数据
+                    r.setQuartzInstanceInfo( instanceInfo );
                 }
             }
         }

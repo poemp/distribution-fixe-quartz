@@ -7,9 +7,9 @@ import org.poem.annotation.QuartzMethod;
 import org.poem.annotation.QuartzService;
 import org.poem.utils.SpringContextHolder;
 import org.poem.utils.exception.ParameterException;
-import org.poem.vo.QuartzServiceClass;
-import org.poem.vo.QuartzServiceMethod;
-import org.poem.vo.QuartzServiceMethodParms;
+import org.poem.instanceinfo.QuartzServiceClass;
+import org.poem.instanceinfo.QuartzServiceMethod;
+import org.poem.instanceinfo.QuartzServiceMethodParms;
 import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
 
 import java.lang.annotation.Annotation;

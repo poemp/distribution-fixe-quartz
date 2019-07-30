@@ -1,4 +1,4 @@
-package org.poem.vo;
+package org.poem.instanceinfo;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
