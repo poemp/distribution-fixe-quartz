@@ -21,10 +21,17 @@ public class TestService {
 
 
     /**
-     *
+     * 主方法
      */
     @QuartzMethod(name = "主方法")
     public void main() {
         System.out.println( "主方法 ." );
+    }
+
+
+    @QuartzMethod(name = "exect 参数")
+    public String exect(String message) {
+        System.out.println( "exect [" + message + "]" );
+        return "exect [" + message + "]";
     }
 }

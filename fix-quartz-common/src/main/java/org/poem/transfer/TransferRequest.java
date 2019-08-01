@@ -1,5 +1,7 @@
 package org.poem.transfer;
 
+import lombok.Data;
+
 import java.io.Serializable;
 
 /**
@@ -7,6 +9,7 @@ import java.io.Serializable;
  *
  * @author Administrator
  */
+@Data
 public class TransferRequest implements Serializable {
 
     private static volatile TransferRequestBuilder builder;
@@ -81,6 +84,7 @@ public class TransferRequest implements Serializable {
     }
 
 
+    @Data
     public static class TransferRequestBuilder {
         private boolean error;
         private String message;
@@ -113,6 +117,7 @@ public class TransferRequest implements Serializable {
             this.throwable = throwable;
             return this;
         }
+
 
     }
 }

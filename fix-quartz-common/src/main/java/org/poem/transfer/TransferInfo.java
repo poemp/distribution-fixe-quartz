@@ -17,7 +17,7 @@ public class TransferInfo implements Serializable {
      * 调用的参数
      */
     @ApiModelProperty("参数")
-    private List<QuartzServiceMethodParms> quartzServiceMethodParms;
+    private List<TransferParametersInfo> transferParametersInfos;
     /**
      * 调用的类
      */
@@ -72,11 +72,11 @@ public class TransferInfo implements Serializable {
         this.methodName = methodName;
     }
 
-    public List<QuartzServiceMethodParms> getQuartzServiceMethodParms() {
-        return quartzServiceMethodParms;
+    public List<TransferParametersInfo> getTransferParametersInfos() {
+        return transferParametersInfos;
     }
 
-    public void setQuartzServiceMethodParms(List<QuartzServiceMethodParms> quartzServiceMethodParms) {
-        this.quartzServiceMethodParms = quartzServiceMethodParms;
+    public void setTransferParametersInfos(List<TransferParametersInfo> transferParametersInfos) {
+        this.transferParametersInfos = transferParametersInfos;
     }
 }

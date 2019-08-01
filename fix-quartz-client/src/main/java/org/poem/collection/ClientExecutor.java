@@ -35,7 +35,7 @@ public class ClientExecutor {
         try {
             executors.setClassName( info.getClassName() );
             executors.setMethodName( info.getMethodName() );
-            executors.setQuartzServiceMethodParms( info.getQuartzServiceMethodParms() );
+            executors.setTransferParametersInfos( info.getTransferParametersInfos() );
             return executors.executor();
         } catch (ClientException e) {
             e.printStackTrace();

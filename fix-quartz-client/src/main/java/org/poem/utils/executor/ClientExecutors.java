@@ -1,9 +1,10 @@
 package org.poem.utils.executor;
 
 import com.google.common.collect.Lists;
+import lombok.Data;
 import org.apache.commons.lang.StringUtils;
 import org.poem.SpringUtils;
-import org.poem.instanceinfo.QuartzServiceMethodParms;
+import org.poem.transfer.TransferParametersInfo;
 import org.poem.transfer.TransferRequest;
 import org.poem.utils.exception.ClientException;
 import org.springframework.util.CollectionUtils;
@@ -15,12 +16,13 @@ import java.util.List;
 /**
  * @author Administrator
  */
+@Data
 public class ClientExecutors {
 
     /**
      * 调用的参数
      */
-    private List<QuartzServiceMethodParms> quartzServiceMethodParms;
+    private List<TransferParametersInfo> transferParametersInfos;
     /**
      * 调用的类
      */
@@ -49,28 +51,53 @@ public class ClientExecutors {
      *
      * @return
      */
-    private List<Class<?>> getPart() {
+    private List<Class<?>> getMethodParsClass() throws ClassNotFoundException {
         List<Class<?>> parameterTypes = Lists.newArrayList();
+        if (CollectionUtils.isEmpty( this.getTransferParametersInfos() )){
+            return parameterTypes;
+        }
+        for (TransferParametersInfo transferParametersInfo : this.getTransferParametersInfos()) {
+            Class<?> clazz = Class.forName( transferParametersInfo.getClassName() );
+            parameterTypes.add( clazz );
+        }
         return parameterTypes;
     }
 
     /**
-     * 执行
+     * 获取参数的值
+     *
+     * @return
+     */
+    private List<Object> getMethodParasValue() {
+        List<Object> values = Lists.newArrayList();
+        for (TransferParametersInfo transferParametersInfo : this.getTransferParametersInfos()) {
+            values.add( transferParametersInfo.getValue() );
+        }
+        return values;
+    }
+
+    /**
+     * 执行方法
+     *
+     * @return
+     * @throws ClientException
      */
     public TransferRequest executor() throws ClientException {
         this.validate();
-        List<Class<?>> parts = getPart();
         try {
+            List<Class<?>> parts = getMethodParsClass();
             Class<?> clazz = Class.forName( this.className );
             Method method;
-            Object ser = SpringUtils.getBean( className, clazz );
+            Object ser = SpringUtils.getBean( clazz );
             if (CollectionUtils.isEmpty( parts )) {
                 method = clazz.getMethod( methodName );
+                return TransferRequest.returnObject( method.invoke( ser ) ).build();
             } else {
                 Class[] classes = parts.toArray( new Class[0] );
                 method = clazz.getMethod( methodName, classes );
+                List<Object> values = getMethodParasValue();
+                return TransferRequest.returnObject( method.invoke( ser, values.toArray( new Object[0] ) ) ).build();
             }
-            return TransferRequest.returnObject( method.invoke( ser ) ).build();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
             return TransferRequest.throwable( new ClientException( e.getMessage() ) ).build();
@@ -86,13 +113,6 @@ public class ClientExecutors {
         }
     }
 
-    public List<QuartzServiceMethodParms> getQuartzServiceMethodParms() {
-        return quartzServiceMethodParms;
-    }
-
-    public void setQuartzServiceMethodParms(List<QuartzServiceMethodParms> quartzServiceMethodParms) {
-        this.quartzServiceMethodParms = quartzServiceMethodParms;
-    }
 
     public String getClassName() {
         return className;

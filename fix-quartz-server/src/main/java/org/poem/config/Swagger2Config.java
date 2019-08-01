@@ -1,5 +1,6 @@
 package org.poem.config;
 
+import io.swagger.annotations.Api;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -31,7 +32,8 @@ public class Swagger2Config {
                 .groupName("API-All")
                 .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("org.poem"))
+//                .apis(RequestHandlerSelectors.basePackage("org.poem"))
+                .apis(RequestHandlerSelectors.withClassAnnotation( Api.class ))
                 .paths(PathSelectors.any())
                 .build()
                 .globalOperationParameters(paraList);
