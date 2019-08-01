@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * @author Administrator
  */
-@Api(tags = {"消息处理"})
+@Api(tags = {"服务管理"})
 @RestController
 @RequestMapping("/v1/server")
 public class RequestController {

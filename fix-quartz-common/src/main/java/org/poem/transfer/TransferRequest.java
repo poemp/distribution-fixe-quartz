@@ -74,12 +74,14 @@ public class TransferRequest implements Serializable {
     public static TransferRequest.TransferRequestBuilder returnObject(Object returnObject) {
         TransferRequest.TransferRequestBuilder builder = instance();
         builder.returnObject = returnObject;
+        builder.error = false;
         return builder;
     }
 
     public static TransferRequest.TransferRequestBuilder throwable(Throwable throwable) {
         TransferRequest.TransferRequestBuilder builder = instance();
         builder.throwable = throwable;
+        builder.error = true;
         return builder;
     }
 

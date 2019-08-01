@@ -2,6 +2,7 @@ package org.poem.repository;
 
 import com.google.common.collect.Lists;
 import org.poem.QuartzInstanceInfo;
+import org.poem.heart.Heartbeat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,10 +34,6 @@ public class InstanceInfoRepository {
      */
     private static volatile ConcurrentMap<String, Object> sets = new ConcurrentHashMap<String, Object>();
 
-    /**
-     * 超时
-     */
-    private static long heartBeatInterval = 3 * 1000;
 
     private static ExecutorService executor = Executors.newFixedThreadPool( 2 );
 
@@ -130,25 +127,23 @@ public class InstanceInfoRepository {
     static class MonitorFlush implements Runnable {
 
         /**
-         * 最近的心跳时间
-         */
-        private long lastHeartbeat;
-
-        /**
          * 异步执行
          */
         @Override
         public void run() {
-            long startTime = System.currentTimeMillis();
-            if (startTime - lastHeartbeat > heartBeatInterval) {
-                lastHeartbeat = startTime;
+            try {
                 for (Repository repository : list) {
                     AtomicInteger count = repository.getLoseCount();
                     repository.setLose( new AtomicBoolean( count.intValue() - 1 < 0 ) );
                     repository.setLoseCount( new AtomicInteger( count.intValue() - 1 < 0 ? 0 : count.intValue() - 1 ) );
                 }
+                Thread.sleep( Heartbeat.TIME );
+                executor.submit( this );
+            } catch (InterruptedException e) {
+                logger.error( e.getMessage(),e );
+                e.printStackTrace();
             }
-            executor.submit( this );
+
         }
     }
 
@@ -156,24 +151,20 @@ public class InstanceInfoRepository {
      * 执行删除任务
      */
     static class MonitorRemove implements Runnable {
-        /**
-         * 最近的心跳时间
-         */
-        private long lastHeartbeat;
-
         @Override
         public void run() {
-            long startTime = System.currentTimeMillis();
-            // 是否达到发送心跳的周期时间
-            if (startTime - lastHeartbeat > heartBeatInterval) {
-                lastHeartbeat = startTime;
+            try {
                 for (Repository repository : list) {
                     if (repository.getLose().get()) {
                         remove( repository );
                     }
                 }
+                Thread.sleep( Heartbeat.TIME );
+                executor.submit( this );
+            } catch (InterruptedException e) {
+                logger.error( e.getMessage(),e );
+                e.printStackTrace();
             }
-            executor.submit( this );
         }
     }
 }

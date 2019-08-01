@@ -32,6 +32,7 @@ public class TestService {
     @QuartzMethod(name = "exect 参数")
     public String exect(String message) {
         System.out.println( "exect [" + message + "]" );
+        Integer.valueOf( "a" );
         return "exect [" + message + "]";
     }
 }

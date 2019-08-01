@@ -60,7 +60,7 @@ public class AbstractTransferConsumers implements TransferConsumers {
 
         TransferRequest request = restTemplate.
                 postForEntity( uri, entity, TransferRequest.class, new Object() ).getBody();
-        logger.info( " Registered instance : " + request );
+        logger.info( " Execute Instance : " + request );
         return request;
     }
 }

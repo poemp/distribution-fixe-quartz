@@ -3,6 +3,7 @@ package org.poem.repository;
 import lombok.Data;
 import org.poem.QuartzInstanceInfo;
 
+import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -28,4 +29,10 @@ public class Repository {
      * 是否丢失
      */
     private AtomicBoolean lose;
+
+
+    /**
+     * 任务的状态
+     */
+    private List<RepositoryExecResult> repositoryExecResultList;
 }

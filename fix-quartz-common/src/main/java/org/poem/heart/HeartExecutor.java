@@ -39,9 +39,18 @@ public class HeartExecutor implements ApplicationListener {
      * @param heartbeatClient
      */
     public static void submit(HeartbeatClient heartbeatClient) {
+        try {
+            Thread.sleep( Heartbeat.TIME );
+        } catch (InterruptedException e) {
+            logger.error( e.getMessage(),e );
+            e.printStackTrace();
+        }
         executor.submit( heartbeatClient );
     }
 
+    /**
+     * 执行
+     */
     public void run() {
         submit( new HeartbeatClient( new HeartbeatHandler() {
 
