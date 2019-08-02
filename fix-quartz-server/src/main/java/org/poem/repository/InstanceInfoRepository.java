@@ -138,7 +138,9 @@ public class InstanceInfoRepository {
                     repository.setLoseCount( new AtomicInteger( count.intValue() - 1 < 0 ? 0 : count.intValue() - 1 ) );
                 }
                 Thread.sleep( Heartbeat.TIME );
-                executor.submit( this );
+                if (!executor.isShutdown()) {
+                    executor.submit( this );
+                }
             } catch (InterruptedException e) {
                 logger.error( e.getMessage(),e );
                 e.printStackTrace();
@@ -160,7 +162,9 @@ public class InstanceInfoRepository {
                     }
                 }
                 Thread.sleep( Heartbeat.TIME );
-                executor.submit( this );
+                if (!executor.isShutdown()) {
+                    executor.submit( this );
+                }
             } catch (InterruptedException e) {
                 logger.error( e.getMessage(),e );
                 e.printStackTrace();

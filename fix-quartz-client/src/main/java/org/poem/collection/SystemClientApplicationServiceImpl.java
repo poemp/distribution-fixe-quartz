@@ -35,7 +35,7 @@ public class SystemClientApplicationServiceImpl implements SystemClientApplicati
 
     @PreDestroy
     public void destroyClient() {
-        logger.info( " destroyClient ...... " );
+        logger.info( " Destroy Client ...... " );
         quartzPulishHelper.delete();
     }
 }

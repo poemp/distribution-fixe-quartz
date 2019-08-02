@@ -74,7 +74,7 @@ public class ServerRequest {
         } else if (StringUtils.isEmpty( info.getAppName() )) {
             return Response.status( 400 ).message( "Missing appName" ).builder();
         }
-        logger.info( "Remove And  Destroy :" + info.getId() );
+        logger.info( " Remove And  Destroy :" + info.getId() );
         InstanceInfoRepository.remove( info );
         return Response.status( 200 ).message( "request is ok " ).builder();
     }

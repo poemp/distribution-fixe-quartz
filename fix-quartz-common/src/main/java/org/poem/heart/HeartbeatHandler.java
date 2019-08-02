@@ -6,7 +6,7 @@ package org.poem.heart;
 public interface HeartbeatHandler {
 
     /**
-     *
+     * z执行
      */
     public void handler();
 }

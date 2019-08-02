@@ -45,7 +45,9 @@ public class HeartExecutor implements ApplicationListener {
             logger.error( e.getMessage(),e );
             e.printStackTrace();
         }
-        executor.submit( heartbeatClient );
+        if (!executor.isShutdown()){
+            executor.submit( heartbeatClient );
+        }
     }
 
     /**
