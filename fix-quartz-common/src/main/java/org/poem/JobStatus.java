@@ -1,5 +1,9 @@
 package org.poem;
 
+/**
+ * @author Administrator
+ */
+
 public enum JobStatus {
 
     /**
@@ -13,5 +17,10 @@ public enum JobStatus {
     /**
      * 错误状态
      */
-    ERROR;
+    ERROR,
+
+    /**
+     * 成功
+     */
+    SUCCESS;
 }
