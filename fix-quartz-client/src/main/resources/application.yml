@@ -3,23 +3,20 @@ spring:
     name: ${quartz-client.name}
   profiles:
     active: global
-eureka:
-  instance:
-    lease-expiration-duration-in-seconds: 30
-    lease-renewal-interval-in-seconds: 10
-    prefer-ip-address: true
-    ip-address: ${eureka.global.ip-address}
-    instance-id: ${eureka.instance.ip-address}:${server.port}
-  client:
-    fetch-registry: true
-    register-with-eureka: true
-    service-url:
-      defaultZone: ${eureka.global.client.service-url.defaultZone}
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${global.nacos.server-addr}
 server:
   port: ${quartz-client.port}
-
+logging:
+  level:
+    com:
+      alibaba:
+        nacos:
+          client:
+            naming: warn
 # 服务的名字
 fixed:
   server:
     name: ${quartz-server.name}
-    port: ${quartz-server.port}

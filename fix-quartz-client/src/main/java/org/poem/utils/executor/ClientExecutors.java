@@ -57,8 +57,10 @@ public class ClientExecutors {
             return parameterTypes;
         }
         for (TransferParametersInfo transferParametersInfo : this.getTransferParametersInfos()) {
-            Class<?> clazz = Class.forName(transferParametersInfo.getClassName());
-            parameterTypes.add(clazz);
+            if (StringUtils.isNotBlank(transferParametersInfo.getClassName())){
+                Class<?> clazz = Class.forName(transferParametersInfo.getClassName());
+                parameterTypes.add(clazz);
+            }
         }
         return parameterTypes;
     }

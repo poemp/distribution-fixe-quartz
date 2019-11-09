@@ -84,9 +84,11 @@ public class QuartzPulishHelper {
      * @param uri
      */
     private void log(String uri) {
-        logger.info(" Future Uri : " + uri);
-        logger.info(" Headers: " + QuartzAccept.QUARTZ_ACCEPT_HEADER_VALUE);
-        logger.info(" Content-Type : application/json; charset=utf-8");
+        if (logger.isDebugEnabled()) {
+            logger.info(" Future Uri : " + uri);
+            logger.info(" Headers: " + QuartzAccept.QUARTZ_ACCEPT_HEADER_VALUE);
+            logger.info(" Content-Type : application/json; charset=utf-8");
+        }
     }
 
     /**
@@ -95,7 +97,7 @@ public class QuartzPulishHelper {
      * @param quartzServiceClasses
      */
     public void push(List<QuartzServiceClass> quartzServiceClasses) {
-        String uri = "http://" + fixedQuartzConfig.getName().toUpperCase() + ":" + fixedQuartzConfig.getPort() + OhttpUrl.SERVER_PATH;
+        String uri = "http://" + fixedQuartzConfig.getName() + OhttpUrl.SERVER_PATH;
         HttpHeaders headers = new HttpHeaders();
         headers.add(QuartzAccept.QUARTZ_ACCEPT_HEADER_KEY, QuartzAccept.QUARTZ_ACCEPT_HEADER_VALUE);
         headers.add("Content-Type", "application/json; charset=utf-8");
@@ -105,14 +107,16 @@ public class QuartzPulishHelper {
 
         String request = restTemplate.
                 postForEntity(uri, entity, String.class, new Object()).getBody();
-        logger.info(" Registered instance : " + request);
+        if (logger.isDebugEnabled()) {
+            logger.info(" Registered instance : " + request);
+        }
     }
 
     /**
      * 推送失效
      */
     public void delete() {
-        String uri = "http://" + fixedQuartzConfig.getName().toUpperCase() + ":" + fixedQuartzConfig.getPort() + OhttpUrl.DEL_SERVER_PATH;
+        String uri = "http://" + fixedQuartzConfig.getName() + OhttpUrl.DEL_SERVER_PATH;
         HttpHeaders headers = new HttpHeaders();
         headers.add(QuartzAccept.QUARTZ_ACCEPT_HEADER_KEY, QuartzAccept.QUARTZ_ACCEPT_HEADER_VALUE);
         headers.add("Content-Type", "application/json; charset=utf-8");

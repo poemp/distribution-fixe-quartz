@@ -1,17 +1,7 @@
 #  eureka 服务治理的远程注册地址
-eureka:
-  global:
-    lease-expiration-duration-in-seconds: 30
-    lease-renewal-interval-in-seconds: 10
-    prefer-ip-address: true
-    ip-address: 127.0.0.1
-    instance-id: 127.0.0.1
-  client:
-    fetch-registry: true
-    register-with-eureka: true
-    service-url:
-      defaultZone: http://127.0.0.1:8761/eureka/
-
+global:
+  nacos:
+    server-addr: 127.0.0.1:8848
 # 服务注册中心
 quartz-center:
   name: quartz-center

@@ -15,4 +15,10 @@ public interface SystemClientApplicationService {
      * @return
      */
     public ClientPushEvent client();
+
+
+    /**
+     * 销毁自己
+     */
+    void destroyClient();
 }

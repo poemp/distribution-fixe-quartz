@@ -9,10 +9,9 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
+        <module>fix-quartz-common</module>
         <module>fix-quartz-client</module>
         <module>fix-quartz-server</module>
-        <module>fix-quartz-center</module>
-        <module>fix-quartz-common</module>
     </modules>
 
     <parent>
@@ -25,7 +24,26 @@
     <properties>
         <swagger2.version>2.9.2</swagger2.version>
         <swaggerbootstrapui.version>1.8.9</swaggerbootstrapui.version>
+        <nacos.version>0.9.0.RELEASE</nacos.version>
+        <spring-cloud-netflix.version>2.1.1.RELEASE</spring-cloud-netflix.version>
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-netflix</artifactId>
+                <version>${spring-cloud-netflix.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+                <version>${nacos.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
 

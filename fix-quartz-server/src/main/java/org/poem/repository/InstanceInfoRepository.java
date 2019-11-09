@@ -11,6 +11,8 @@ import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import static org.poem.AwaitTermination.MAX_AWAIT;
+
 /**
  * @author Administrator
  */
@@ -41,7 +43,37 @@ public class InstanceInfoRepository {
         logger.info("Start Monitor  ...... ");
         executor.submit(new MonitorFlush());
         executor.submit(new MonitorRemove());
+        //注册钩子，在应用程序结束之后，需要去执行
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            if (logger.isDebugEnabled()) {
+                logger.debug("Executor Will Destroy .......");
+            }
+            executor.shutdown(); // 使新任务无法提交.
+            try {
+                // 等待未完成任务结束
+                if (!executor.awaitTermination(MAX_AWAIT, TimeUnit.SECONDS)) {
+                    executor.shutdownNow(); // 取消当前执行的任务
+                    logger.warn("Interrupt the worker, which may cause some task inconsistent. Please check the biz logs.");
+
+                    // 等待任务取消的响应
+                    if (!executor.awaitTermination(MAX_AWAIT, TimeUnit.SECONDS)) {
+                        logger.error("Thread pool can't be shutdown even with interrupting worker threads, which may cause some task inconsistent. Please check the biz logs.");
+                    }
+                }
+            } catch (InterruptedException ie) {
+                // 重新取消当前线程进行中断
+                executor.shutdownNow();
+                logger.error("The current server thread is interrupted when it is trying to stop the worker threads. This may leave an inconcistent state. Please check the biz logs.");
+
+                // 保留中断状态
+                Thread.currentThread().interrupt();
+            }
+
+            logger.info("Finally shutdown the thead pool .......");
+
+        }));
     }
+
 
     /**
      * 添加

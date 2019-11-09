@@ -18,6 +18,7 @@ public class SystemClientApplicationServiceImpl implements SystemClientApplicati
 
     private static final Logger logger = LoggerFactory.getLogger(SystemClientApplicationServiceImpl.class);
 
+
     @Autowired
     private QuartzPulishHelper quartzPulishHelper;
 
@@ -27,12 +28,15 @@ public class SystemClientApplicationServiceImpl implements SystemClientApplicati
 
             @Override
             public void run() {
-                logger.info(" push ...... ");
+                if (logger.isDebugEnabled()) {
+                    logger.debug(" push ...... ");
+                }
                 quartzPulishHelper.push(QuartzCollections.getQuartzServiceClasses());
             }
         };
     }
 
+    @Override
     @PreDestroy
     public void destroyClient() {
         logger.info(" Destroy Client ...... ");

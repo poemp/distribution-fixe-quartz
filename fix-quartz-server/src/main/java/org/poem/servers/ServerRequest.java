@@ -48,7 +48,9 @@ public class ServerRequest {
         } else if (info.getQuartzServiceClasses() == null) {
             return Response.status(400).message("Missing dataCenterInfo").builder();
         }
-        logger.info(" Registered Client \n\t\t -- " + info.getAppName() + "[" + info.getId() + "]/" + info.getIp() + " with status UP");
+        if (logger.isDebugEnabled()) {
+            logger.debug(" Registered Client \t\t -- " + info.getAppName() + "[" + info.getId() + "]/" + info.getIp() + " with status UP");
+        }
         InstanceInfoRepository.add(info);
         return Response.status(200).message("request is ok ").builder();
     }
