@@ -16,26 +16,26 @@ import javax.annotation.PreDestroy;
 @Service
 public class SystemClientApplicationServiceImpl implements SystemClientApplicationService {
 
-    private static final Logger logger = LoggerFactory.getLogger( SystemClientApplicationServiceImpl.class );
+    private static final Logger logger = LoggerFactory.getLogger(SystemClientApplicationServiceImpl.class);
 
     @Autowired
     private QuartzPulishHelper quartzPulishHelper;
 
     @Override
     public ClientPushEvent client() {
-        return new ClientPushEvent( new Object() ) {
+        return new ClientPushEvent(new Object()) {
 
             @Override
             public void run() {
-                logger.info( " push ...... " );
-                quartzPulishHelper.push( QuartzCollections.getQuartzServiceClasses() );
+                logger.info(" push ...... ");
+                quartzPulishHelper.push(QuartzCollections.getQuartzServiceClasses());
             }
         };
     }
 
     @PreDestroy
     public void destroyClient() {
-        logger.info( " Destroy Client ...... " );
+        logger.info(" Destroy Client ...... ");
         quartzPulishHelper.delete();
     }
 }

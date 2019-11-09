@@ -25,7 +25,7 @@ public class IpUtils {
             Enumeration<InetAddress> addresses = netInterface.getInetAddresses();
             while (addresses.hasMoreElements()) {
                 ip = (InetAddress) addresses.nextElement();
-                if (ip != null && ip instanceof Inet4Address && !ip.getHostAddress().equals( "127.0.0.1" )) {
+                if (ip != null && ip instanceof Inet4Address && !ip.getHostAddress().equals("127.0.0.1")) {
                     return ip.getHostAddress();
                 }
             }

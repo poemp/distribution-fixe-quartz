@@ -26,7 +26,7 @@ public class ServerRequest {
     /**
      * 日志行为
      */
-    private static final Logger logger = LoggerFactory.getLogger( ServerRequest.class );
+    private static final Logger logger = LoggerFactory.getLogger(ServerRequest.class);
 
     /**
      * 获取参数
@@ -39,18 +39,18 @@ public class ServerRequest {
     public Response metadata(@RequestBody QuartzInstanceInfo info, HttpServletRequest request) {
         // validate that the instanceInfo contains all the necessary required fields
         // 验证Instance实例的所有必填字段
-        if (StringUtils.isEmpty( info.getIp() )) {
-            return Response.status( 400 ).message( "Missing instanceId" ).builder();
-        } else if (StringUtils.isEmpty( info.getHostName() )) {
-            return Response.status( 400 ).message( "Missing hostname" ).builder();
-        } else if (StringUtils.isEmpty( info.getAppName() )) {
-            return Response.status( 400 ).message( "Missing appName" ).builder();
+        if (StringUtils.isEmpty(info.getIp())) {
+            return Response.status(400).message("Missing instanceId").builder();
+        } else if (StringUtils.isEmpty(info.getHostName())) {
+            return Response.status(400).message("Missing hostname").builder();
+        } else if (StringUtils.isEmpty(info.getAppName())) {
+            return Response.status(400).message("Missing appName").builder();
         } else if (info.getQuartzServiceClasses() == null) {
-            return Response.status( 400 ).message( "Missing dataCenterInfo" ).builder();
+            return Response.status(400).message("Missing dataCenterInfo").builder();
         }
-        logger.info( " Registered Client " + info.getAppName() + "[" + info.getId() + "]/" + info.getIp() + " with status UP" );
-        InstanceInfoRepository.add( info );
-        return Response.status( 200 ).message( "request is ok " ).builder();
+        logger.info(" Registered Client \n\t\t -- " + info.getAppName() + "[" + info.getId() + "]/" + info.getIp() + " with status UP");
+        InstanceInfoRepository.add(info);
+        return Response.status(200).message("request is ok ").builder();
     }
 
 
@@ -65,17 +65,17 @@ public class ServerRequest {
     public Response deleteMetadata(@RequestBody QuartzInstanceInfo info) {
         // validate that the instanceInfo contains all the necessary required fields
         // 验证Instance实例的所有必填字段
-        if (StringUtils.isEmpty( info.getIp() )) {
-            return Response.status( 400 ).message( "Missing instanceId" ).builder();
-        } else if (StringUtils.isEmpty( info.getHostName() )) {
-            return Response.status( 400 ).message( "Missing hostname" ).builder();
+        if (StringUtils.isEmpty(info.getIp())) {
+            return Response.status(400).message("Missing instanceId").builder();
+        } else if (StringUtils.isEmpty(info.getHostName())) {
+            return Response.status(400).message("Missing hostname").builder();
         } else if (info.getQuartzServiceClasses() == null) {
-            return Response.status( 400 ).message( "Missing dataCenterInfo" ).builder();
-        } else if (StringUtils.isEmpty( info.getAppName() )) {
-            return Response.status( 400 ).message( "Missing appName" ).builder();
+            return Response.status(400).message("Missing dataCenterInfo").builder();
+        } else if (StringUtils.isEmpty(info.getAppName())) {
+            return Response.status(400).message("Missing appName").builder();
         }
-        logger.info( " Remove And  Destroy :" + info.getId() );
-        InstanceInfoRepository.remove( info );
-        return Response.status( 200 ).message( "request is ok " ).builder();
+        logger.info(" Remove And  Destroy :" + info.getId());
+        InstanceInfoRepository.remove(info);
+        return Response.status(200).message("request is ok ").builder();
     }
 }

@@ -9,7 +9,7 @@ import org.springframework.context.ApplicationEvent;
 public abstract class BaseAbstractEvent extends ApplicationEvent implements Event {
 
     BaseAbstractEvent(Object source) {
-        super( source );
+        super(source);
     }
 
     /**

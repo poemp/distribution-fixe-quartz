@@ -4,7 +4,6 @@ package org.poem.annotation;
 import java.lang.annotation.*;
 
 /**
- *
  * @author Administrator
  */
 @Target({ElementType.METHOD})

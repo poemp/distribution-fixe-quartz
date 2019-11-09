@@ -17,7 +17,7 @@ import org.springframework.web.client.RestTemplate;
 public class QuartzClientApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run( QuartzClientApplication.class, args );
+        SpringApplication.run(QuartzClientApplication.class, args);
     }
 
     @Bean

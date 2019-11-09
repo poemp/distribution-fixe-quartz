@@ -6,10 +6,10 @@ package org.poem.utils.exception;
 public class ClientException extends Exception {
 
     public ClientException() {
-        super( "" );
+        super("");
     }
 
     public ClientException(String message) {
-        super( message );
+        super(message);
     }
 }

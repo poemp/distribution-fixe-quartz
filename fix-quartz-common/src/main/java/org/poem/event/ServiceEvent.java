@@ -7,7 +7,7 @@ package org.poem.event;
 public abstract class ServiceEvent extends BaseAbstractEvent {
 
     public ServiceEvent(Object source) {
-        super( source );
+        super(source);
     }
 
     /**

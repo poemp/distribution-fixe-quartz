@@ -40,7 +40,7 @@ public class MD5Utils {
     public static String getMD5Lower(String srcStr)
             throws NoSuchAlgorithmException {
         String sign = "lower";
-        return processStr( srcStr, sign );
+        return processStr(srcStr, sign);
     }
 
     /**
@@ -54,7 +54,7 @@ public class MD5Utils {
     public static String getMD5Upper(String srcStr)
             throws NoSuchAlgorithmException {
         String sign = "upper";
-        return processStr( srcStr, sign );
+        return processStr(srcStr, sign);
     }
 
     private static String processStr(String srcStr, String sign)
@@ -65,8 +65,8 @@ public class MD5Utils {
         // 结果字符串
         String result = "";
         // 初始化并开始进行计算
-        digest = MessageDigest.getInstance( algorithm );
-        digest.update( srcStr.getBytes() );
+        digest = MessageDigest.getInstance(algorithm);
+        digest.update(srcStr.getBytes());
         byte[] byteRes = digest.digest();
 
         // 计算byte数组的长度
@@ -74,7 +74,7 @@ public class MD5Utils {
 
         // 将byte数组转换成字符串
         for (int i = 0; i < length; i++) {
-            result = result + byteHEX( byteRes[i], sign );
+            result = result + byteHEX(byteRes[i], sign);
         }
 
         return result;
@@ -89,12 +89,12 @@ public class MD5Utils {
     private static String byteHEX(byte bt, String sign) {
 
         char[] temp = null;
-        if (sign.equalsIgnoreCase( "lower" )) {
+        if (sign.equalsIgnoreCase("lower")) {
             temp = DigitLower;
-        } else if (sign.equalsIgnoreCase( "upper" )) {
+        } else if (sign.equalsIgnoreCase("upper")) {
             temp = DigitUpper;
         } else {
-            throw new RuntimeException( "加密缺少必要的条件" );
+            throw new RuntimeException("加密缺少必要的条件");
         }
         char[] ob = new char[2];
 
@@ -102,15 +102,15 @@ public class MD5Utils {
 
         ob[1] = temp[bt & 0X0F];
 
-        return new String( ob );
+        return new String(ob);
     }
 
     static String getMD5(String content) {
         MessageDigest messageDigest = null;
         try {
-            messageDigest = MessageDigest.getInstance( "MD5" );
+            messageDigest = MessageDigest.getInstance("MD5");
             messageDigest.reset();
-            messageDigest.update( content.getBytes( StandardCharsets.UTF_8 ) );
+            messageDigest.update(content.getBytes(StandardCharsets.UTF_8));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -120,10 +120,10 @@ public class MD5Utils {
         StringBuffer md5StrBuff = new StringBuffer();
 
         for (int i = 0; i < byteArray.length; i++) {
-            if (Integer.toHexString( 0xFF & byteArray[i] ).length() == 1) {
-                md5StrBuff.append( "0" ).append( Integer.toHexString( 0xFF & byteArray[i] ) );
+            if (Integer.toHexString(0xFF & byteArray[i]).length() == 1) {
+                md5StrBuff.append("0").append(Integer.toHexString(0xFF & byteArray[i]));
             } else {
-                md5StrBuff.append( Integer.toHexString( 0xFF & byteArray[i] ) );
+                md5StrBuff.append(Integer.toHexString(0xFF & byteArray[i]));
             }
         }
 

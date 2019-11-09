@@ -24,7 +24,7 @@ import java.util.List;
 public class Controller {
 
 
-    private static final Logger logger = LoggerFactory.getLogger( Controller.class );
+    private static final Logger logger = LoggerFactory.getLogger(Controller.class);
 
 
     /**
@@ -37,13 +37,13 @@ public class Controller {
     public void getExportTemplateTxt(HttpServletResponse response) {
         try {
             String fileName = "数据元-模板.txt";
-            response.setHeader( "Content-Disposition", "attachment; filename=\"" +
-                    new String( fileName.getBytes( StandardCharsets.UTF_8 ), "ISO8859-1" ) + "\"" );
-            response.setContentType( "application/octet-stream;charset=UTF-8" );
-            TxtParseUtils.createTemplate( response.getOutputStream(), NtDataElementVO.class );
+            response.setHeader("Content-Disposition", "attachment; filename=\"" +
+                    new String(fileName.getBytes(StandardCharsets.UTF_8), "ISO8859-1") + "\"");
+            response.setContentType("application/octet-stream;charset=UTF-8");
+            TxtParseUtils.createTemplate(response.getOutputStream(), NtDataElementVO.class);
         } catch (IOException e) {
             e.printStackTrace();
-            logger.debug( e.getMessage(), e );
+            logger.debug(e.getMessage(), e);
         }
     }
 
@@ -57,22 +57,22 @@ public class Controller {
     public void getExportTemplateXls(HttpServletResponse response) {
         try {
             String fileName = "数据元-模板.xlsx";
-            response.setHeader( "Content-Disposition", "attachment; filename=\"" +
-                    new String( fileName.getBytes( StandardCharsets.UTF_8 ), "ISO8859-1" ) + "\"" );
-            response.setContentType( "application/octet-stream;charset=UTF-8" );
-            ExcelUtils.createTemplate( response.getOutputStream(), NtDataElementVO.class );
+            response.setHeader("Content-Disposition", "attachment; filename=\"" +
+                    new String(fileName.getBytes(StandardCharsets.UTF_8), "ISO8859-1") + "\"");
+            response.setContentType("application/octet-stream;charset=UTF-8");
+            ExcelUtils.createTemplate(response.getOutputStream(), NtDataElementVO.class);
         } catch (IOException e) {
             e.printStackTrace();
-            logger.debug( e.getMessage(), e );
+            logger.debug(e.getMessage(), e);
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
-            logger.debug( e.getMessage(), e );
+            logger.debug(e.getMessage(), e);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
-            logger.debug( e.getMessage(), e );
+            logger.debug(e.getMessage(), e);
         } catch (InvocationTargetException e) {
             e.printStackTrace();
-            logger.debug( e.getMessage(), e );
+            logger.debug(e.getMessage(), e);
         }
     }
 
@@ -85,46 +85,46 @@ public class Controller {
     @ApiOperation(value = "第一步，验证导入文件正确性", httpMethod = "POST")
     @PostMapping("/readExcel")
     public ResultVO<ExcelVO<NtDataElementVO>> readExcel(HttpServletRequest request) {
-        CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver( request.getSession().getServletContext() );
-        if (!multipartResolver.isMultipart( request )) {
-            return new ResultVO<ExcelVO<NtDataElementVO>>( 0, null, "导入数据" );
+        CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(request.getSession().getServletContext());
+        if (!multipartResolver.isMultipart(request)) {
+            return new ResultVO<ExcelVO<NtDataElementVO>>(0, null, "导入数据");
         }
         MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
         Collection<MultipartFile> collection = multiRequest.getFileMap().values();
         if (collection.size() == 0) {
-            return new ResultVO<ExcelVO<NtDataElementVO>>( 1, null, "没有文件" );
+            return new ResultVO<ExcelVO<NtDataElementVO>>(1, null, "没有文件");
         }
-        MultipartFile multipartFile = collection.toArray( new MultipartFile[0] )[0];
+        MultipartFile multipartFile = collection.toArray(new MultipartFile[0])[0];
         try {
-            ExcelVO<NtDataElementVO> excelVO = ExcelUtils.readExcel( multipartFile.getInputStream(), NtDataElementVO.class );
+            ExcelVO<NtDataElementVO> excelVO = ExcelUtils.readExcel(multipartFile.getInputStream(), NtDataElementVO.class);
             if (!excelVO.getErr()) {
 //                redisUtil.set(excelVO.getRedisKey(), excelVO);
             }
-            return new ResultVO<ExcelVO<NtDataElementVO>>( 0, excelVO );
+            return new ResultVO<ExcelVO<NtDataElementVO>>(0, excelVO);
         } catch (IOException e) {
             e.printStackTrace();
-            logger.error( e.getMessage(), e );
-            return new ResultVO<ExcelVO<NtDataElementVO>>( -1, null, e.getMessage() );
+            logger.error(e.getMessage(), e);
+            return new ResultVO<ExcelVO<NtDataElementVO>>(-1, null, e.getMessage());
         } catch (InvalidFormatException e) {
             e.printStackTrace();
-            logger.error( e.getMessage(), e );
-            return new ResultVO<ExcelVO<NtDataElementVO>>( -1, null, e.getMessage() );
+            logger.error(e.getMessage(), e);
+            return new ResultVO<ExcelVO<NtDataElementVO>>(-1, null, e.getMessage());
         } catch (IllegalAccessException e) {
             e.printStackTrace();
-            logger.error( e.getMessage(), e );
-            return new ResultVO<ExcelVO<NtDataElementVO>>( -1, null, e.getMessage() );
+            logger.error(e.getMessage(), e);
+            return new ResultVO<ExcelVO<NtDataElementVO>>(-1, null, e.getMessage());
         } catch (InvocationTargetException e) {
             e.printStackTrace();
-            logger.error( e.getMessage(), e );
-            return new ResultVO<ExcelVO<NtDataElementVO>>( -1, null, e.getMessage() );
+            logger.error(e.getMessage(), e);
+            return new ResultVO<ExcelVO<NtDataElementVO>>(-1, null, e.getMessage());
         } catch (InstantiationException e) {
             e.printStackTrace();
-            logger.error( e.getMessage(), e );
-            return new ResultVO<ExcelVO<NtDataElementVO>>( -1, null, e.getMessage() );
+            logger.error(e.getMessage(), e);
+            return new ResultVO<ExcelVO<NtDataElementVO>>(-1, null, e.getMessage());
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
-            logger.error( e.getMessage(), e );
-            return new ResultVO<ExcelVO<NtDataElementVO>>( -1, null, e.getMessage() );
+            logger.error(e.getMessage(), e);
+            return new ResultVO<ExcelVO<NtDataElementVO>>(-1, null, e.getMessage());
         }
     }
 
@@ -139,6 +139,6 @@ public class Controller {
     @PostMapping("/importData")
     public ResultVO<List<String>> importData(String redisKey, HttpServletRequest request) {
         ExcelVO<NtDataElementVO> excelVO = new ExcelVO<NtDataElementVO>();
-        return new ResultVO<List<String>>( 0, null, "完成" );
+        return new ResultVO<List<String>>(0, null, "完成");
     }
 }

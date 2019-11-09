@@ -36,7 +36,7 @@ public class SnowFlake {
     private static SnowFlake snowFlake;
 
     static {
-        snowFlake = new SnowFlake( 1, 1 );
+        snowFlake = new SnowFlake(1, 1);
     }
 
     private long datacenterId;  //数据中心
@@ -46,17 +46,17 @@ public class SnowFlake {
 
     public SnowFlake(long datacenterId, long machineId) {
         if (datacenterId > MAX_DATACENTER_NUM || datacenterId < 0) {
-            throw new IllegalArgumentException( "datacenterId can't be greater than MAX_DATACENTER_NUM or less than 0" );
+            throw new IllegalArgumentException("datacenterId can't be greater than MAX_DATACENTER_NUM or less than 0");
         }
         if (machineId > MAX_MACHINE_NUM || machineId < 0) {
-            throw new IllegalArgumentException( "machineId can't be greater than MAX_MACHINE_NUM or less than 0" );
+            throw new IllegalArgumentException("machineId can't be greater than MAX_MACHINE_NUM or less than 0");
         }
         this.datacenterId = datacenterId;
         this.machineId = machineId;
     }
 
     public static String genId() {
-        return Long.toString( snowFlake.nextId() );
+        return Long.toString(snowFlake.nextId());
     }
 
     /**
@@ -67,7 +67,7 @@ public class SnowFlake {
     public synchronized long nextId() {
         long currStmp = getNewstmp();
         if (currStmp < lastStmp) {
-            throw new RuntimeException( "Clock moved backwards.  Refusing to generate id" );
+            throw new RuntimeException("Clock moved backwards.  Refusing to generate id");
         }
 
         if (currStmp == lastStmp) {

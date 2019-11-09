@@ -43,13 +43,13 @@ public class QuartzInstanceInfo {
 
     }
 
-    private QuartzInstanceInfo(String ip, String hostName, String appName,String port,  List<QuartzServiceClass> quartzServiceClasses) {
+    private QuartzInstanceInfo(String ip, String hostName, String appName, String port, List<QuartzServiceClass> quartzServiceClasses) {
         this.ip = ip;
         this.hostName = hostName;
         this.port = port;
         this.appName = appName;
         this.quartzServiceClasses = quartzServiceClasses;
-        this.id = MD5Utils.getMD5( ip + "@" + hostName + "@" + appName + "@" + port ).toUpperCase();
+        this.id = MD5Utils.getMD5(ip + "@" + hostName + "@" + appName + "@" + port).toUpperCase();
     }
 
     private static Builder instance() {
@@ -61,7 +61,7 @@ public class QuartzInstanceInfo {
 
     @Override
     public String toString() {
-        return JSONObject.toJSONString( this );
+        return JSONObject.toJSONString(this);
     }
 
     public static class Builder {
@@ -92,7 +92,7 @@ public class QuartzInstanceInfo {
             return builder;
         }
 
-        public  QuartzInstanceInfo.Builder port(String port) {
+        public QuartzInstanceInfo.Builder port(String port) {
             QuartzInstanceInfo.Builder builder = instance();
             builder.port = port;
             return builder;
@@ -122,7 +122,7 @@ public class QuartzInstanceInfo {
          * @return
          */
         public QuartzInstanceInfo build() {
-            return new QuartzInstanceInfo( INFO.ip, INFO.hostName, INFO.appName, INFO.port, INFO.quartzServiceClasses );
+            return new QuartzInstanceInfo(INFO.ip, INFO.hostName, INFO.appName, INFO.port, INFO.quartzServiceClasses);
         }
     }
 }

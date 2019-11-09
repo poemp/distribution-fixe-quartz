@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class TxtParseUtils {
 
-    private static final Logger logger = LoggerFactory.getLogger( TxtParseUtils.class );
+    private static final Logger logger = LoggerFactory.getLogger(TxtParseUtils.class);
 
     /**
      * @param outputStream
@@ -31,15 +31,15 @@ public class TxtParseUtils {
         List<String> fields = getFiled();
         StringBuilder builder = new StringBuilder();
         for (String field : fields) {
-            builder.append( field ).append( ": xxxx " );
+            builder.append(field).append(": xxxx ");
         }
         try {
-            outputStream.write( builder.toString().getBytes( Charset.forName( "UTF-8" ) ) );
+            outputStream.write(builder.toString().getBytes(Charset.forName("UTF-8")));
         } catch (IOException e) {
             e.printStackTrace();
-            logger.error( e.getMessage(), e );
+            logger.error(e.getMessage(), e);
         } finally {
-            IOUtils.closeQuietly( outputStream );
+            IOUtils.closeQuietly(outputStream);
         }
     }
 
@@ -53,10 +53,10 @@ public class TxtParseUtils {
         List<String> stringList = Lists.newArrayList();
         java.lang.reflect.Field[] fields = clazz.getDeclaredFields();
         for (Field field : fields) {
-            field.setAccessible( true );
-            NtField ntField = field.getAnnotation( NtField.class );
+            field.setAccessible(true);
+            NtField ntField = field.getAnnotation(NtField.class);
             if (ntField != null) {
-                stringList.add( ntField.name() );
+                stringList.add(ntField.name());
             }
         }
         return stringList;
@@ -71,9 +71,9 @@ public class TxtParseUtils {
         char[] chars = fieldName.toCharArray();
         for (int i = 0; i < chars.length; i++) {
             if (i == 0) {
-                stringBuffer.append( String.valueOf( chars[i] ).toUpperCase() );
+                stringBuffer.append(String.valueOf(chars[i]).toUpperCase());
             } else {
-                stringBuffer.append( String.valueOf( chars[i] ) );
+                stringBuffer.append(String.valueOf(chars[i]));
             }
         }
         return stringBuffer.toString();
@@ -86,12 +86,12 @@ public class TxtParseUtils {
      */
     private static String subString(String line) {
         String str;
-        int findexA = line.indexOf( ":" );
-        int findex = line.indexOf( "：" );
+        int findexA = line.indexOf(":");
+        int findex = line.indexOf("：");
         if (findexA > -1) {
-            str = line.substring( findexA + 1 );
+            str = line.substring(findexA + 1);
         } else if (findex > -1) {
-            str = line.substring( findex + 1 );
+            str = line.substring(findex + 1);
         } else {
             str = line;
         }
@@ -109,22 +109,22 @@ public class TxtParseUtils {
         List<NtDataElementVO> ntDataSources = Lists.newArrayList();
         InputStreamReader input = null;
         List<String> fileds = getFiled();
-        String firstFiled = fileds.get( 0 );
+        String firstFiled = fileds.get(0);
         try {
-            File file = new File( name );
-            input = new InputStreamReader( new FileInputStream( file ) );
-            BufferedReader bf = new BufferedReader( input );
+            File file = new File(name);
+            input = new InputStreamReader(new FileInputStream(file));
+            BufferedReader bf = new BufferedReader(input);
             String str, line;
             NtDataElementVO ntDataSource = null;
             int lastIndex = -1;
             while ((line = bf.readLine()) != null) {
-                if (StringUtils.isEmpty( line )) {
+                if (StringUtils.isEmpty(line)) {
                     continue;
                 }
                 line = line.trim();
-                if (line.startsWith( firstFiled )) {
+                if (line.startsWith(firstFiled)) {
                     if (ntDataSource != null) {
-                        ntDataSources.add( ntDataSource );
+                        ntDataSources.add(ntDataSource);
                     }
                     lastIndex = -1;
                     ntDataSource = new NtDataElementVO();
@@ -133,55 +133,55 @@ public class TxtParseUtils {
                 //赋值
                 int index = -1;
                 for (int i = 0; i < fileds.size(); i++) {
-                    if (line.startsWith( fileds.get( i ) )) {
+                    if (line.startsWith(fileds.get(i))) {
                         index = i;
                         break;
                     }
                 }
-                str = subString( line );
+                str = subString(line);
                 if (index == -1) {
                     if (lastIndex == -1) {
-                        logger.warn( str );
+                        logger.warn(str);
                     } else {
                         Class clazz = ntDataSource.getClass();
                         Field f = clazz.getDeclaredFields()[lastIndex];
                         String fieldName = f.getName();
-                        Method getMethod = clazz.getMethod( "get" + toUpperCaseFirst( fieldName ) );
-                        Object value = getMethod.invoke( ntDataSource );
+                        Method getMethod = clazz.getMethod("get" + toUpperCaseFirst(fieldName));
+                        Object value = getMethod.invoke(ntDataSource);
 
-                        Method setMethod = clazz.getMethod( "set" + toUpperCaseFirst( fieldName ), String.class );
+                        Method setMethod = clazz.getMethod("set" + toUpperCaseFirst(fieldName), String.class);
                         if (value != null) {
-                            str = str + String.valueOf( value );
+                            str = str + String.valueOf(value);
                         }
-                        setMethod.invoke( ntDataSource, str );
+                        setMethod.invoke(ntDataSource, str);
                     }
                 } else if (ntDataSource != null) {
                     lastIndex = index;
                     Class clazz = ntDataSource.getClass();
                     Field f = clazz.getDeclaredFields()[index];
                     String fieldName = f.getName();
-                    Method method = clazz.getMethod( "set" + toUpperCaseFirst( fieldName ), String.class );
-                    method.invoke( ntDataSource, str );
+                    Method method = clazz.getMethod("set" + toUpperCaseFirst(fieldName), String.class);
+                    method.invoke(ntDataSource, str);
                 } else {
-                    logger.warn( "the entity is not init. " );
+                    logger.warn("the entity is not init. ");
                 }
             }
             bf.close();
             input.close();
         } catch (IOException e) {
             e.printStackTrace();
-            logger.error( e.getMessage(), e );
+            logger.error(e.getMessage(), e);
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
-            logger.error( e.getMessage(), e );
+            logger.error(e.getMessage(), e);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
-            logger.error( e.getMessage(), e );
+            logger.error(e.getMessage(), e);
         } catch (InvocationTargetException e) {
             e.printStackTrace();
-            logger.error( e.getMessage(), e );
+            logger.error(e.getMessage(), e);
         } finally {
-            IOUtils.closeQuietly( input );
+            IOUtils.closeQuietly(input);
         }
         return ntDataSources;
     }

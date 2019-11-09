@@ -23,10 +23,10 @@ public class HeartbeatClient implements Runnable {
     public void run() {
         try {
             this.heartbeatHandler.handler();
-            HeartExecutor.submit( this );
+            HeartExecutor.submit(this);
         } catch (Exception e) {
             e.printStackTrace();
-            HeartExecutor.submit( this );
+            HeartExecutor.submit(this);
         }
     }
 }

@@ -2,7 +2,6 @@ package org.poem.transfer;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.poem.instanceinfo.QuartzServiceMethodParms;
 
 import java.io.Serializable;
 import java.util.List;

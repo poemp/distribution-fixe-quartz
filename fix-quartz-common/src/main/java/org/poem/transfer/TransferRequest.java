@@ -42,7 +42,7 @@ public class TransferRequest implements Serializable {
         this.error = error;
         this.message = message;
         this.throwable = throwable;
-        if (this.throwable != null){
+        if (this.throwable != null) {
             this.error = false;
         }
         this.returnObject = returnObject;
@@ -94,7 +94,7 @@ public class TransferRequest implements Serializable {
         private Object returnObject;
 
         public TransferRequest build() {
-            return new TransferRequest( this.error, this.message, this.throwable, this.returnObject );
+            return new TransferRequest(this.error, this.message, this.throwable, this.returnObject);
         }
 
         private TransferRequestBuilder() {

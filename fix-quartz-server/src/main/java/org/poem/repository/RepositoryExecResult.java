@@ -10,6 +10,7 @@ import java.sql.Timestamp;
 
 /**
  * 执行的结果
+ *
  * @author Administrator
  */
 @Data
@@ -29,13 +30,13 @@ public class RepositoryExecResult {
     private Timestamp endTimeStamp;
 
     /**
-     *  执行的时长
+     * 执行的时长
      */
     @ApiModelProperty("执行的时长")
     private Long executorTime;
 
     /**
-     *  任务状态
+     * 任务状态
      */
     @ApiModelProperty("任务状态")
     private JobStatus status;

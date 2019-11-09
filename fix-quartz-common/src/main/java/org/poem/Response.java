@@ -90,7 +90,7 @@ public class Response implements Serializable {
         }
 
         public Response builder() {
-            return new Response( this.status, this.message );
+            return new Response(this.status, this.message);
         }
     }
 }

@@ -33,13 +33,13 @@ public class ClientExecutor {
     public TransferRequest metadata(@RequestBody TransferInfo info, HttpServletRequest request) {
         ClientExecutors executors = new ClientExecutors();
         try {
-            executors.setClassName( info.getClassName() );
-            executors.setMethodName( info.getMethodName() );
-            executors.setTransferParametersInfos( info.getTransferParametersInfos() );
+            executors.setClassName(info.getClassName());
+            executors.setMethodName(info.getMethodName());
+            executors.setTransferParametersInfos(info.getTransferParametersInfos());
             return executors.executor();
         } catch (ClientException e) {
             e.printStackTrace();
-            return TransferRequest.throwable( new ClientException( e.getMessage() ) ).build();
+            return TransferRequest.throwable(new ClientException(e.getMessage())).build();
         }
     }
 }

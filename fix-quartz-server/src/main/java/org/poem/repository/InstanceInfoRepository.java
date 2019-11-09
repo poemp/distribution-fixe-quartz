@@ -16,15 +16,15 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class InstanceInfoRepository {
 
-    private static final Logger logger = LoggerFactory.getLogger( InstanceInfoRepository.class );
+    private static final Logger logger = LoggerFactory.getLogger(InstanceInfoRepository.class);
     /**
      * 失效次数
      */
-    private static final AtomicInteger LOST_COUNT = new AtomicInteger( 10 );
+    private static final AtomicInteger LOST_COUNT = new AtomicInteger(10);
     /**
      * 失效
      */
-    private static final AtomicBoolean LOST_BOOLEAN = new AtomicBoolean( false );
+    private static final AtomicBoolean LOST_BOOLEAN = new AtomicBoolean(false);
     /**
      * 所有的数据
      */
@@ -35,12 +35,12 @@ public class InstanceInfoRepository {
     private static volatile ConcurrentMap<String, Object> sets = new ConcurrentHashMap<String, Object>();
 
 
-    private static ExecutorService executor = Executors.newFixedThreadPool( 2 );
+    private static ExecutorService executor = Executors.newFixedThreadPool(2);
 
     static {
-        logger.info( "Start Monitor  ...... " );
-        executor.submit( new MonitorFlush() );
-        executor.submit( new MonitorRemove() );
+        logger.info("Start Monitor  ...... ");
+        executor.submit(new MonitorFlush());
+        executor.submit(new MonitorRemove());
     }
 
     /**
@@ -49,22 +49,22 @@ public class InstanceInfoRepository {
      * @param instanceInfo
      */
     public static void add(QuartzInstanceInfo instanceInfo) {
-        Object o = sets.get( instanceInfo.getId() );
+        Object o = sets.get(instanceInfo.getId());
         if (o == null) {
             Repository repository = new Repository();
-            repository.setLoseCount( LOST_COUNT );
-            repository.setLose( LOST_BOOLEAN );
-            repository.setQuartzInstanceInfo( instanceInfo );
-            list.add( repository );
-            sets.put( instanceInfo.getId(), new Object() );
+            repository.setLoseCount(LOST_COUNT);
+            repository.setLose(LOST_BOOLEAN);
+            repository.setQuartzInstanceInfo(instanceInfo);
+            list.add(repository);
+            sets.put(instanceInfo.getId(), new Object());
         } else {
             for (Repository r : list) {
-                if (r.getQuartzInstanceInfo().getId().equals( instanceInfo.getId() )) {
-                    r.setLoseCount( LOST_COUNT );
-                    r.setLose( LOST_BOOLEAN );
-                    r.setLose( new AtomicBoolean( false ) );
+                if (r.getQuartzInstanceInfo().getId().equals(instanceInfo.getId())) {
+                    r.setLoseCount(LOST_COUNT);
+                    r.setLose(LOST_BOOLEAN);
+                    r.setLose(new AtomicBoolean(false));
                     //还是把原来的放进去，如果新添加方法，不会更新原来保存的数据
-                    r.setQuartzInstanceInfo( instanceInfo );
+                    r.setQuartzInstanceInfo(instanceInfo);
                 }
             }
         }
@@ -76,16 +76,16 @@ public class InstanceInfoRepository {
     public static void remove(QuartzInstanceInfo repository) {
         Repository delete = null;
         for (Repository r : list) {
-            if (r.getQuartzInstanceInfo().getId().equals( repository.getId() )) {
-                r.setLose( new AtomicBoolean( true ) );
+            if (r.getQuartzInstanceInfo().getId().equals(repository.getId())) {
+                r.setLose(new AtomicBoolean(true));
                 delete = r;
                 // 删除
                 break;
             }
         }
         if (delete != null) {
-            sets.remove( delete.getQuartzInstanceInfo().getId() );
-            list.remove( delete );
+            sets.remove(delete.getQuartzInstanceInfo().getId());
+            list.remove(delete);
         }
     }
 
@@ -95,17 +95,17 @@ public class InstanceInfoRepository {
     private static void remove(Repository repository) {
         Repository delete = null;
         for (Repository r : list) {
-            if (r.getQuartzInstanceInfo().getId().equals( repository.getQuartzInstanceInfo().getId() )) {
-                r.setLose( new AtomicBoolean( true ) );
+            if (r.getQuartzInstanceInfo().getId().equals(repository.getQuartzInstanceInfo().getId())) {
+                r.setLose(new AtomicBoolean(true));
                 delete = r;
                 // 删除
                 break;
             }
         }
         if (delete != null) {
-            logger.info( "Remove: " + delete.getQuartzInstanceInfo().getId() );
-            sets.remove( delete.getQuartzInstanceInfo().getId() );
-            list.remove( delete );
+            logger.info("Remove: " + delete.getQuartzInstanceInfo().getId());
+            sets.remove(delete.getQuartzInstanceInfo().getId());
+            list.remove(delete);
         }
     }
 
@@ -115,7 +115,7 @@ public class InstanceInfoRepository {
     public static List<QuartzInstanceInfo> getAllInstanceInfo() {
         List<QuartzInstanceInfo> instanceInfos = Lists.newArrayList();
         for (Repository repository : list) {
-            instanceInfos.add( repository.getQuartzInstanceInfo() );
+            instanceInfos.add(repository.getQuartzInstanceInfo());
         }
         return instanceInfos;
     }
@@ -134,15 +134,15 @@ public class InstanceInfoRepository {
             try {
                 for (Repository repository : list) {
                     AtomicInteger count = repository.getLoseCount();
-                    repository.setLose( new AtomicBoolean( count.intValue() - 1 < 0 ) );
-                    repository.setLoseCount( new AtomicInteger( count.intValue() - 1 < 0 ? 0 : count.intValue() - 1 ) );
+                    repository.setLose(new AtomicBoolean(count.intValue() - 1 < 0));
+                    repository.setLoseCount(new AtomicInteger(Math.max(count.intValue() - 1, 0)));
                 }
-                Thread.sleep( Heartbeat.TIME );
+                Thread.sleep(Heartbeat.TIME);
                 if (!executor.isShutdown()) {
-                    executor.submit( this );
+                    executor.submit(this);
                 }
             } catch (InterruptedException e) {
-                logger.error( e.getMessage(),e );
+                logger.error(e.getMessage(), e);
                 e.printStackTrace();
             }
 
@@ -158,15 +158,15 @@ public class InstanceInfoRepository {
             try {
                 for (Repository repository : list) {
                     if (repository.getLose().get()) {
-                        remove( repository );
+                        remove(repository);
                     }
                 }
-                Thread.sleep( Heartbeat.TIME );
+                Thread.sleep(Heartbeat.TIME);
                 if (!executor.isShutdown()) {
-                    executor.submit( this );
+                    executor.submit(this);
                 }
             } catch (InterruptedException e) {
-                logger.error( e.getMessage(),e );
+                logger.error(e.getMessage(), e);
                 e.printStackTrace();
             }
         }

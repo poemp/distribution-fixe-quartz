@@ -33,7 +33,7 @@ public class Swagger2Config {
                 .apiInfo(apiInfo())
                 .select()
 //                .apis(RequestHandlerSelectors.basePackage("org.poem"))
-                .apis(RequestHandlerSelectors.withClassAnnotation( Api.class ))
+                .apis(RequestHandlerSelectors.withClassAnnotation(Api.class))
                 .paths(PathSelectors.any())
                 .build()
                 .globalOperationParameters(paraList);

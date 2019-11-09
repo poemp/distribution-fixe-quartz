@@ -38,11 +38,11 @@ public class ClientExecutors {
      * @throws ClientException
      */
     private void validate() throws ClientException {
-        if (StringUtils.isEmpty( className )) {
-            throw new ClientException( " exector class[" + this.className + "] can\'t be empty" );
+        if (StringUtils.isEmpty(className)) {
+            throw new ClientException(" exector class[" + this.className + "] can\'t be empty");
         }
-        if (StringUtils.isEmpty( methodName )) {
-            throw new ClientException( " exector class[" + this.className + "]  method[ " + this.methodName + "] can\'t be empty" );
+        if (StringUtils.isEmpty(methodName)) {
+            throw new ClientException(" exector class[" + this.className + "]  method[ " + this.methodName + "] can\'t be empty");
         }
     }
 
@@ -53,12 +53,12 @@ public class ClientExecutors {
      */
     private List<Class<?>> getMethodParsClass() throws ClassNotFoundException {
         List<Class<?>> parameterTypes = Lists.newArrayList();
-        if (CollectionUtils.isEmpty( this.getTransferParametersInfos() )){
+        if (CollectionUtils.isEmpty(this.getTransferParametersInfos())) {
             return parameterTypes;
         }
         for (TransferParametersInfo transferParametersInfo : this.getTransferParametersInfos()) {
-            Class<?> clazz = Class.forName( transferParametersInfo.getClassName() );
-            parameterTypes.add( clazz );
+            Class<?> clazz = Class.forName(transferParametersInfo.getClassName());
+            parameterTypes.add(clazz);
         }
         return parameterTypes;
     }
@@ -71,7 +71,7 @@ public class ClientExecutors {
     private List<Object> getMethodParasValue() {
         List<Object> values = Lists.newArrayList();
         for (TransferParametersInfo transferParametersInfo : this.getTransferParametersInfos()) {
-            values.add( transferParametersInfo.getValue() );
+            values.add(transferParametersInfo.getValue());
         }
         return values;
     }
@@ -86,30 +86,30 @@ public class ClientExecutors {
         this.validate();
         try {
             List<Class<?>> parts = getMethodParsClass();
-            Class<?> clazz = Class.forName( this.className );
+            Class<?> clazz = Class.forName(this.className);
             Method method;
-            Object ser = SpringUtils.getBean( clazz );
-            if (CollectionUtils.isEmpty( parts )) {
-                method = clazz.getMethod( methodName );
-                return TransferRequest.returnObject( method.invoke( ser ) ).build();
+            Object ser = SpringUtils.getBean(clazz);
+            if (CollectionUtils.isEmpty(parts)) {
+                method = clazz.getMethod(methodName);
+                return TransferRequest.returnObject(method.invoke(ser)).build();
             } else {
-                Class[] classes = parts.toArray( new Class[0] );
-                method = clazz.getMethod( methodName, classes );
+                Class[] classes = parts.toArray(new Class[0]);
+                method = clazz.getMethod(methodName, classes);
                 List<Object> values = getMethodParasValue();
-                return TransferRequest.returnObject( method.invoke( ser, values.toArray( new Object[0] ) ) ).build();
+                return TransferRequest.returnObject(method.invoke(ser, values.toArray(new Object[0]))).build();
             }
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
-            return TransferRequest.throwable( new ClientException( e.getMessage() ) ).build();
+            return TransferRequest.throwable(new ClientException(e.getMessage())).build();
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
-            return TransferRequest.throwable( new ClientException( e.getMessage() ) ).build();
+            return TransferRequest.throwable(new ClientException(e.getMessage())).build();
         } catch (IllegalAccessException e) {
             e.printStackTrace();
-            return TransferRequest.throwable( new ClientException( e.getMessage() ) ).build();
+            return TransferRequest.throwable(new ClientException(e.getMessage())).build();
         } catch (InvocationTargetException e) {
             e.printStackTrace();
-            return TransferRequest.throwable( new ClientException( e.getMessage() ) ).build();
+            return TransferRequest.throwable(new ClientException(e.getMessage())).build();
         }
     }
 

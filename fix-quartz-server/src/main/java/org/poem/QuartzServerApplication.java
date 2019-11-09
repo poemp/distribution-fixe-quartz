@@ -15,8 +15,9 @@ import org.springframework.web.client.RestTemplate;
 public class QuartzServerApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run( QuartzServerApplication.class, args );
+        SpringApplication.run(QuartzServerApplication.class, args);
     }
+
     @Bean
     @LoadBalanced
     public RestTemplate restTemplate() {

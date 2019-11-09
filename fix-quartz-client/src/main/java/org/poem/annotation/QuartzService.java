@@ -3,6 +3,9 @@ package org.poem.annotation;
 
 import java.lang.annotation.*;
 
+/**
+ * @author poem
+ */
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented

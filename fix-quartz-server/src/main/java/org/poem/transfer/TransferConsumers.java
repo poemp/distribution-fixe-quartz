@@ -8,6 +8,7 @@ public interface TransferConsumers {
 
     /**
      * transferInfo
+     *
      * @param transferInfo
      * @return
      */

@@ -16,7 +16,7 @@ public class TestService {
      */
     @QuartzMethod(name = "测试方法")
     public void testMethod(String args) {
-        System.out.println( "distribution hello word ." );
+        System.out.println("distribution hello word .");
     }
 
 
@@ -25,14 +25,14 @@ public class TestService {
      */
     @QuartzMethod(name = "主方法")
     public void main() {
-        System.out.println( "主方法 ." );
+        System.out.println("主方法 .");
     }
 
 
     @QuartzMethod(name = "exect 参数")
     public String exect(String message) {
-        System.out.println( "exect [" + message + "]" );
-        Integer.valueOf( "a" );
+        System.out.println("exect [" + message + "]");
+        Integer.valueOf("a");
         return "exect [" + message + "]";
     }
 }

@@ -1,6 +1,9 @@
 package org.poem.servers;
 
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.poem.QuartzInstanceInfo;
 import org.poem.nt.ResultVO;
 import org.poem.repository.InstanceInfoRepository;
@@ -23,8 +26,8 @@ public class RequestController {
 
     @Autowired
     private TransferConsumers transferConsumers;
+
     /**
-     *
      * @return
      */
 
@@ -36,11 +39,10 @@ public class RequestController {
     })
     @GetMapping(value = "/getAll")
     public ResultVO<List<QuartzInstanceInfo>> getAll() {
-        return new ResultVO<>( 0, InstanceInfoRepository.getAllInstanceInfo() );
+        return new ResultVO<>(0, InstanceInfoRepository.getAllInstanceInfo());
     }
 
     /**
-     *
      * @param transferInfo
      * @return
      */
@@ -51,7 +53,7 @@ public class RequestController {
             @ApiResponse(code = 500, message = "数据库发生错误")
     })
     @PostMapping(value = "/executor")
-    public ResultVO<TransferRequest> executor(@RequestBody TransferInfo transferInfo){
-        return new ResultVO<>( 0, this.transferConsumers.execute( transferInfo ) );
+    public ResultVO<TransferRequest> executor(@RequestBody TransferInfo transferInfo) {
+        return new ResultVO<>(0, this.transferConsumers.execute(transferInfo));
     }
 }

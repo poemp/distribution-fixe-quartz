@@ -25,7 +25,7 @@ import java.util.concurrent.Executors;
 @Service
 public class HeartExecutor implements ApplicationListener {
 
-    private static final Logger logger = LoggerFactory.getLogger( HeartExecutor.class );
+    private static final Logger logger = LoggerFactory.getLogger(HeartExecutor.class);
     private static ExecutorService executor = Executors.newSingleThreadExecutor();
     /**
      * 上下文对象
@@ -40,13 +40,13 @@ public class HeartExecutor implements ApplicationListener {
      */
     public static void submit(HeartbeatClient heartbeatClient) {
         try {
-            Thread.sleep( Heartbeat.TIME );
+            Thread.sleep(Heartbeat.TIME);
         } catch (InterruptedException e) {
-            logger.error( e.getMessage(),e );
+            logger.error(e.getMessage(), e);
             e.printStackTrace();
         }
-        if (!executor.isShutdown()){
-            executor.submit( heartbeatClient );
+        if (!executor.isShutdown()) {
+            executor.submit(heartbeatClient);
         }
     }
 
@@ -54,37 +54,37 @@ public class HeartExecutor implements ApplicationListener {
      * 执行
      */
     public void run() {
-        submit( new HeartbeatClient( new HeartbeatHandler() {
+        submit(new HeartbeatClient(new HeartbeatHandler() {
 
             @Override
             public void handler() {
 
-                SystemClientApplicationService systemClientApplicationService = SpringUtils.getBean( SystemClientApplicationService.class );
+                SystemClientApplicationService systemClientApplicationService = SpringUtils.getBean(SystemClientApplicationService.class);
                 if (systemClientApplicationService != null) {
                     ClientPushEvent event = systemClientApplicationService.client();
-                    applicationContext.publishEvent( event );
+                    applicationContext.publishEvent(event);
                 }
 
-                SystemServiceApplicationService serviceApplicationService = SpringUtils.getBean( SystemServiceApplicationService.class );
+                SystemServiceApplicationService serviceApplicationService = SpringUtils.getBean(SystemServiceApplicationService.class);
                 if (serviceApplicationService != null) {
                     ServiceEvent event = serviceApplicationService.service();
-                    applicationContext.publishEvent( event );
+                    applicationContext.publishEvent(event);
                 }
             }
-        } ) );
+        }));
     }
 
 
     @PreDestroy
     public void destroy() {
-        logger.info( "heartExecutor destroy ..." );
+        logger.info("heartExecutor destroy ...");
         executor.shutdown();
     }
 
     @Override
     public void onApplicationEvent(ApplicationEvent event) {
         if (event instanceof ApplicationStartedEvent) {
-            logger.info( "start heartbeat ......." );
+            logger.info("start heartbeat .......");
             run();
         }
     }

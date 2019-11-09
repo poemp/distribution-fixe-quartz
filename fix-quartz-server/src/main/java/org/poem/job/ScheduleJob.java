@@ -14,7 +14,7 @@ import org.springframework.scheduling.quartz.QuartzJobBean;
  * @since JDK 1.7
  */
 public class ScheduleJob extends QuartzJobBean {
-    private static Logger logger = LoggerFactory.getLogger( ScheduleJob.class );
+    private static Logger logger = LoggerFactory.getLogger(ScheduleJob.class);
 
     /**
      * @param context
@@ -22,7 +22,7 @@ public class ScheduleJob extends QuartzJobBean {
      */
     @Override
     protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
-        String jsonJob = context.getMergedJobDataMap().getString( "key" );
+        String jsonJob = context.getMergedJobDataMap().getString("key");
     }
 
 }

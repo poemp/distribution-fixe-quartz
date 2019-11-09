@@ -7,7 +7,7 @@ package org.poem.event;
 public abstract class ClientPushEvent extends BaseAbstractEvent {
 
     public ClientPushEvent(Object source) {
-        super( source );
+        super(source);
     }
 
     /**
