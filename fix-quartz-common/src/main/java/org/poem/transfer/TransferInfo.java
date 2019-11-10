@@ -2,6 +2,7 @@ package org.poem.transfer;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.List;
 /**
  * @author Administrator
  */
+@Data
 @ApiModel("执行的操纵信息")
 public class TransferInfo implements Serializable {
 
@@ -33,49 +35,4 @@ public class TransferInfo implements Serializable {
     @ApiModelProperty("appname")
     private String appName;
 
-    /**
-     * port
-     */
-    @ApiModelProperty("端口")
-    private String port;
-
-    public String getPort() {
-        return port;
-    }
-
-    public void setPort(String port) {
-        this.port = port;
-    }
-
-    public String getAppName() {
-        return appName;
-    }
-
-    public void setAppName(String appName) {
-        this.appName = appName;
-    }
-
-    public String getClassName() {
-        return className;
-    }
-
-    public void setClassName(String className) {
-        this.className = className;
-    }
-
-    public String getMethodName() {
-        return methodName;
-    }
-
-    public void setMethodName(String methodName) {
-        this.methodName = methodName;
-    }
-
-    public List<TransferParametersInfo> getTransferParametersInfos() {
-        return transferParametersInfos;
-    }
-
-    public void setTransferParametersInfos(List<TransferParametersInfo> transferParametersInfos) {
-        this.transferParametersInfos = transferParametersInfos;
-    }
 }

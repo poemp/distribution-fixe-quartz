@@ -1,5 +1,7 @@
 package org.poem.transfer;
 
+import java.util.List;
+
 /**
  * @author Administrator
  */
@@ -12,6 +14,6 @@ public interface TransferConsumers {
      * @param transferInfo
      * @return
      */
-    TransferRequest execute(TransferInfo transferInfo);
+    List<TransferRequest> execute(TransferInfo transferInfo);
 
 }

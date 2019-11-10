@@ -53,7 +53,7 @@ public class RequestController {
             @ApiResponse(code = 500, message = "数据库发生错误")
     })
     @PostMapping(value = "/executor")
-    public ResultVO<TransferRequest> executor(@RequestBody TransferInfo transferInfo) {
+    public ResultVO<List<TransferRequest>> executor(@RequestBody TransferInfo transferInfo) {
         return new ResultVO<>(0, this.transferConsumers.execute(transferInfo));
     }
 }
